@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Name=PARTSMAN AI OS
+Comment=Boot and launch PARTSMAN AI Operating System
+Exec=bash "/home/ben/Documents/01_Truckgear_Projects/truckgear-client-dashboard file/run_partsman.sh"
+Icon=utilities-terminal
+Categories=Development;

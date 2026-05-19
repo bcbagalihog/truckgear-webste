@@ -1,0 +1,161 @@
+INFO:     Will watch for changes in these directories: ['/home/ben/Documents/01_Truckgear_Projects/truckgear-client-dashboard file/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8055 (Press CTRL+C to quit)
+INFO:     Started reloader process [48675] using StatReload
+[DB_MONOLITH] Separated database 'partsman_db' verified.
+INFO:     Started server process [48712]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+[DB_MONOLITH] Separated database 'partsman_db' verified.
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54886 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54886 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42688 - "GET /api/payments/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42694 - "GET /api/payments/list HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54820 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54820 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41148 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38238 - "GET /api/payments/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:38238 - "GET /api/payments/list HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:38238 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:38238 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44706 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44706 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'modules/accounting/router.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [48712]
+INFO:     Started server process [50599]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+[DB_MONOLITH] Separated database 'partsman_db' verified.
+INFO:     127.0.0.1:44162 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44162 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:44164 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:44164 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58762 - "GET /api/payments/list HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58762 - "GET /api/payments/list HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:58762 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:58762 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56640 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56640 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:33484 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:33484 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:42570 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:42570 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54712 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54712 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56620 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56620 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56620 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54266 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54266 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54266 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:35896 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:35896 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:35908 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:53160 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:53160 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:53174 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:53174 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:58348 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:58348 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:58348 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59766 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59766 - "GET /api/accounting/summary HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59776 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59776 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:45854 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:45854 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'modules/inventory/router.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [50599]
+INFO:     Started server process [54293]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+[DB_MONOLITH] Separated database 'partsman_db' verified.
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59478 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:33774 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'modules/inventory/router.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [54293]
+INFO:     Started server process [54868]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+[DB_MONOLITH] Separated database 'partsman_db' verified.
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:54744 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:60868 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:36848 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:34134 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:50540 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:50540 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:50540 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59700 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59700 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59700 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59700 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:59700 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56222 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56222 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56222 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
+[API_LINK_WARNING] Could not retrieve sibling product data: 'utf-8' codec can't decode byte 0x8b in position 1: invalid start byte
+INFO:     127.0.0.1:56222 - "GET /api/inventory/search?q= HTTP/1.1" 200 OK
