@@ -41,7 +41,7 @@ export default function PartsOperationsLayout({ children }: { children: React.Re
 
           {/* Navigation Links */}
           <nav className="space-y-2">
-            <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest pl-4 mb-4">Operations Cockpit</p>
+            <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest pl-4 mb-4">Operations Dashboard</p>
             {menuItems.map((item) => {
               const isActive = pathname === item.path;
               return (
