@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { 
   Truck, ShieldCheck, Zap, Layers, MapPin, ExternalLink, 
   Coins, Recycle, Award, Sparkles, Scale, AlertTriangle, ArrowRight,
-  Shield, CheckCircle, Quote, Eye, Target
+  Shield, CheckCircle, Quote, Eye, Target, MessageCircle
 } from 'lucide-react';
 
 export default function TruckgearHome() {
@@ -431,29 +431,29 @@ export default function TruckgearHome() {
             </div>
           </div>
 
-          {/* Right: Physical storefront Card matching booklet Page 5 */}
+          {/* Right: CEO Image */}
           <div className="lg:col-span-5 space-y-4">
             <div className="p-4 bg-slate-900/60 border border-slate-800 rounded-2xl space-y-4 shadow-xl">
               <div className="flex justify-between items-center text-[10px] font-mono text-slate-500 select-none pb-2 border-b border-slate-800">
-                <span>ESTABLISHED 2016</span>
-                <span>ORIGINAL PHOTO GRIDS</span>
+                <span>FOUNDER & CEO</span>
+                <span>EXECUTIVE PORTRAIT</span>
               </div>
-              <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden border border-slate-850 group">
+              <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-slate-850 group">
                 <Image 
-                  src="/storefront-v4.png" 
-                  alt="Truckgear Caloocan Depot Storefront" 
+                  src="/ceo-ben.jpg" 
+                  alt="Ben Anthony Bagalihog - CEO" 
                   fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex flex-col justify-end p-4 text-left space-y-1.5 font-mono select-none">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-white text-xs tracking-wider">CALOOCAN DEPOT</span>
-                    <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[8px] rounded uppercase font-bold tracking-widest">STOREFRONT ACTIVE</span>
+                    <span className="font-bold text-white text-xs tracking-wider">BEN ANTHONY BAGALIHOG</span>
+                    <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[8px] rounded uppercase font-bold tracking-widest">LEADERSHIP</span>
                   </div>
                 </div>
               </div>
               <p className="text-[10px] text-slate-500 font-mono leading-relaxed text-center">
-                Original Caloocan Depot featuring direct retail counters and local fleet dispatch docks.
+                Ben Anthony Bagalihog, System Architect and CEO of TruckGear Philippines Co.
               </p>
             </div>
           </div>
@@ -595,7 +595,23 @@ export default function TruckgearHome() {
                   </div>
                 </div>
               </div>
-              
+              <div className="flex flex-col gap-4 mt-6">
+                <a 
+                  href="viber://chat?number=+639285066385" 
+                  className="w-full flex items-center justify-center gap-3 bg-[#7360f2] hover:bg-[#6251d1] text-white py-4 px-6 rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-[#7360f2]/20"
+                >
+                  <MessageCircle className="w-6 h-6" />
+                  Request Quote via Viber
+                </a>
+                
+                <Link 
+                  href="/request-quote"
+                  className="w-full flex items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 text-slate-950 py-4 px-6 rounded-xl font-bold transition-all hover:scale-[1.02] shadow-lg shadow-amber-500/20"
+                >
+                  <Quote className="w-6 h-6" />
+                  Submit Quote Online
+                </Link>
+              </div>
               {/* Quick Contact Links */}
               <div className="space-y-6 text-slate-300 font-mono text-xs hidden lg:block bg-slate-900/40 p-6 rounded-2xl border border-slate-800 shadow-lg">
                 <div className="flex items-center gap-4 group">
