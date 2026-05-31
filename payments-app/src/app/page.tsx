@@ -431,29 +431,29 @@ export default function TruckgearHome() {
             </div>
           </div>
 
-          {/* Right: CEO Image */}
+          {/* Right: Company Profile Cover */}
           <div className="lg:col-span-5 space-y-4">
             <div className="p-4 bg-slate-900/60 border border-slate-800 rounded-2xl space-y-4 shadow-xl">
               <div className="flex justify-between items-center text-[10px] font-mono text-slate-500 select-none pb-2 border-b border-slate-800">
-                <span>FOUNDER & CEO</span>
-                <span>EXECUTIVE PORTRAIT</span>
+                <span>BUSINESS PROFILE</span>
+                <span>2026 EDITION</span>
               </div>
               <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden border border-slate-850 group">
                 <Image 
-                  src="/ceo-ben.jpg" 
-                  alt="Ben Anthony Bagalihog - CEO" 
+                  src="/company-profile.png" 
+                  alt="TruckGear Company Profile 2026" 
                   fill 
-                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent flex flex-col justify-end p-4 text-left space-y-1.5 font-mono select-none">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-white text-xs tracking-wider">BEN ANTHONY BAGALIHOG</span>
-                    <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[8px] rounded uppercase font-bold tracking-widest">LEADERSHIP</span>
+                    <span className="font-bold text-white text-xs tracking-wider">COMPANY PROFILE</span>
+                    <span className="px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[8px] rounded uppercase font-bold tracking-widest">LATEST RELEASE</span>
                   </div>
                 </div>
               </div>
               <p className="text-[10px] text-slate-500 font-mono leading-relaxed text-center">
-                Ben Anthony Bagalihog, System Architect and CEO of TruckGear Philippines Co.
+                Your Gear to Move Forward. Your Partner in Success.
               </p>
             </div>
           </div>
