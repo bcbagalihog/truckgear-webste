@@ -698,34 +698,6 @@ export default function TruckgearHome() {
                     <div className="flex justify-between"><span className="text-slate-500">Jonson:</span> <span>(0906) 926 4475</span></div>
                   </div>
                 </div>
-
-                {/* Branch 5 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group flex flex-col">
-                  <h4 className="font-bold text-amber-400 text-sm mb-2 uppercase tracking-wide">TRUCKGEAR HEAVY EQUIPMENT</h4>
-                  <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
-                    <span>149 C B. Serrano Street, Grace Park East, Caloocan</span>
-                  </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
-                    <div className="flex justify-between"><span className="text-slate-500">Ben Carmelo:</span> <span>(02) 8552 3199</span></div>
-                    <div className="flex justify-between"><span className="text-slate-500">Mobile 1:</span> <span>0920 911 4476</span></div>
-                    <div className="flex justify-between"><span className="text-slate-500">Mobile 2:</span> <span>0995 783 5748</span></div>
-                  </div>
-                </div>
-
-                {/* Branch 6 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group flex flex-col">
-                  <h4 className="font-bold text-amber-400 text-sm mb-2 uppercase tracking-wide break-words">BUYFASTTRUCKPARTSTRADING</h4>
-                  <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
-                    <span>Banga 1st Plaridel, Bulacan (Beside Motorlandia & Waltermart)</span>
-                  </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
-                    <div className="flex justify-between"><span className="text-slate-500">Inquiries 1:</span> <span>0920 911 4476</span></div>
-                    <div className="flex justify-between"><span className="text-slate-500">Inquiries 2:</span> <span>0995 783 5748</span></div>
-                  </div>
-                </div>
-
               </div>
             </div>
 
