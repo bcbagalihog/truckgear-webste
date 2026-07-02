@@ -662,7 +662,7 @@ export default function TruckgearHome() {
                       scrolling="no" 
                       marginHeight={0} 
                       marginWidth={0} 
-                      src="https://maps.google.com/maps?q=1032%20A.%20Bonifacio%20St.%20Brgy%20Balingasa,%20Quezon%20City&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                      src="https://maps.google.com/maps?q=TruckGear+Philippines+Co.&t=&z=15&ie=UTF8&iwloc=&output=embed"
                     />
                   </div>
                 </div>
@@ -687,7 +687,7 @@ export default function TruckgearHome() {
                       scrolling="no" 
                       marginHeight={0} 
                       marginWidth={0} 
-                      src="https://maps.google.com/maps?q=Amihan%20Ville,%20Balagtas,%20Batangas%20City,%20Batangas&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                      src="https://maps.google.com/maps?q=TRUCKGEAR+MOTORPARTS+CENTER+Batangas&t=&z=15&ie=UTF8&iwloc=&output=embed"
                     />
                   </div>
                 </div>
