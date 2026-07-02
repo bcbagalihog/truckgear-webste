@@ -644,29 +644,51 @@ export default function TruckgearHome() {
               
               <div className="grid sm:grid-cols-2 gap-4">
                 {/* Branch 1 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group">
+                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group flex flex-col">
                   <h4 className="font-bold text-amber-400 text-sm mb-2 uppercase tracking-wide">TRUCKGEAR TRUCK PARTS STORE</h4>
                   <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
                     <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
                     <span>1032 A. Bonifacio St. Brgy Balingasa, Quezon City</span>
                   </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
+                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto mb-4">
                     <div className="flex justify-between"><span className="text-slate-500">Ben Anthony:</span> <span>0928 506 6385</span></div>
                     <div className="flex justify-between"><span className="text-slate-500">Benny:</span> <span>0935 881 8360</span></div>
+                  </div>
+                  <div className="mt-auto w-full h-32 rounded-lg overflow-hidden border border-slate-800/60">
+                    <iframe 
+                      width="100%" 
+                      height="100%" 
+                      frameBorder="0" 
+                      scrolling="no" 
+                      marginHeight={0} 
+                      marginWidth={0} 
+                      src="https://maps.google.com/maps?q=1032%20A.%20Bonifacio%20St.%20Brgy%20Balingasa,%20Quezon%20City&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    />
                   </div>
                 </div>
 
                 {/* Branch 2 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group">
+                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group flex flex-col">
                   <h4 className="font-bold text-amber-400 text-sm mb-2 uppercase tracking-wide">TRUCKGEAR MOTORPARTS CENTER</h4>
                   <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
                     <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
                     <span>Amihan Ville, Balagtas, Batangas City, Batangas</span>
                   </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
+                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto mb-4">
                     <div className="flex justify-between"><span className="text-slate-500">Honesto:</span> <span>0918 990 6385</span></div>
                     <div className="flex justify-between"><span className="text-slate-500">Ben Anthony:</span> <span>0928 506 6385</span></div>
                     <div className="flex justify-between"><span className="text-slate-500">Benny:</span> <span>0935 881 8360</span></div>
+                  </div>
+                  <div className="mt-auto w-full h-32 rounded-lg overflow-hidden border border-slate-800/60">
+                    <iframe 
+                      width="100%" 
+                      height="100%" 
+                      frameBorder="0" 
+                      scrolling="no" 
+                      marginHeight={0} 
+                      marginWidth={0} 
+                      src="https://maps.google.com/maps?q=Amihan%20Ville,%20Balagtas,%20Batangas%20City,%20Batangas&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    />
                   </div>
                 </div>
 
