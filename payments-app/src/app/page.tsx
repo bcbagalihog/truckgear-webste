@@ -670,34 +670,7 @@ export default function TruckgearHome() {
                   </div>
                 </div>
 
-                {/* Branch 3 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group">
-                  <h4 className="font-bold text-amber-400 text-sm mb-2 uppercase tracking-wide">HW TRUCK MANILA</h4>
-                  <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
-                    <span>8114 Dr Arcadio Santos Ave, Parañaque, 1700 Metro Manila</span>
-                  </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
-                    <div className="flex justify-between"><span className="text-slate-500">ANA / Jerome:</span> <span>0905 575 8342</span></div>
-                  </div>
-                </div>
 
-                {/* Branch 4 */}
-                <div className="bg-slate-900/50 border border-slate-800 hover:border-amber-500/40 p-5 rounded-2xl transition-all group flex flex-col">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h4 className="font-bold text-amber-400 text-sm uppercase tracking-wide">HWTRUCK PARTS SHOP CAVITE</h4>
-                    <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[8px] px-1.5 py-0.5 rounded font-bold uppercase">New</span>
-                  </div>
-                  <div className="flex gap-2 items-start text-xs text-slate-400 mb-3">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
-                    <span>Niog 1, Aguinaldo Hwy Bacoor (Across Red Ribbon)</span>
-                  </div>
-                  <div className="space-y-1 font-mono text-[10px] text-slate-300 bg-slate-950 p-3 rounded-lg border border-slate-800/60 mt-auto">
-                    <div className="text-[9px] text-slate-500 border-b border-slate-800 pb-1 mb-1">HW BRAKE & CLUTCH SUPPLY (Former Address)</div>
-                    <div className="flex justify-between"><span className="text-slate-500">Mark:</span> <span>(0965) 944 3900</span></div>
-                    <div className="flex justify-between"><span className="text-slate-500">Jonson:</span> <span>(0906) 926 4475</span></div>
-                  </div>
-                </div>
               </div>
             </div>
 
