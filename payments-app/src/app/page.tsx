@@ -50,6 +50,7 @@ export default function TruckgearHome() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <Link href="/catalog" className="text-amber-400 font-extrabold hover:text-amber-300 transition-colors border border-amber-500/30 bg-amber-500/10 px-3 py-1 rounded">PARTS CATALOG</Link>
             <a href="#about" className="hover:text-amber-400 transition-colors">About</a>
             <a href="#vision" className="hover:text-amber-400 transition-colors">Vision & Mission</a>
             <a href="#parts" className="hover:text-amber-400 transition-colors">Parts Grid</a>
@@ -93,11 +94,11 @@ export default function TruckgearHome() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <a href="#about" className="px-8 py-4 bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2">
-                  <span>Explore Company Profile</span>
+                <Link href="/catalog" className="px-8 py-4 bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-amber-500/15 hover:shadow-amber-500/35 flex items-center justify-center gap-2">
+                  <span>Browse Parts Catalog</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-                <Link href="/partsman" className="px-8 py-4 bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-amber-500/15 hover:shadow-amber-500/35 flex items-center justify-center gap-2">
+                </Link>
+                <Link href="/partsman" className="px-8 py-4 bg-slate-900 border border-slate-800 text-slate-200 hover:bg-slate-800 hover:border-slate-700 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center flex items-center justify-center gap-2">
                   <span>Explore Partsman OS</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </Link>

@@ -25,7 +25,14 @@ export default function PartsmanPage() {
               <span className="text-[9px] font-mono text-cyan-500 uppercase tracking-widest leading-none mt-1 group-hover:text-slate-400 transition-colors">BACK TO MAIN</span>
             </div>
           </Link>
-          <div>
+          <div className="flex items-center gap-3">
+            <Link 
+              href="/catalog" 
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-md shadow-lg transition-all uppercase tracking-widest"
+            >
+              <span>Browse Parts Catalog</span>
+            </Link>
+
             <Link 
               href="/portal/login" 
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-md shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/30 transition-all duration-300 group uppercase tracking-widest"
@@ -61,10 +68,15 @@ export default function PartsmanPage() {
             At TruckGear Philippines Co., we don’t just supply premium truck parts—we pioneer the technology that keeps your logistics moving. Partsman AI OS is our proprietary, enterprise-grade Artificial Intelligence ecosystem designed to eliminate operational downtime and streamline high-volume parts management for modern fleets.
           </p>
 
-          <div className="flex justify-center gap-4 pt-10">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-10">
+            <Link href="/catalog" className="px-8 py-4 bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-amber-500/15 hover:shadow-amber-500/35 flex items-center justify-center gap-2">
+              <span>Browse Parts Catalog</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
             <Link href="/portal/login" className="px-8 py-4 bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-cyan-500/15 hover:shadow-cyan-500/35 flex items-center justify-center gap-2">
               <span>Access System Portal</span>
-              <ArrowRight className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4" />
             </Link>
           </div>
         </div>
