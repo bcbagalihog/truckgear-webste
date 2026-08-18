@@ -137,16 +137,22 @@ export default function PublicCatalogPage() {
   useEffect(() => {
     async function loadCatalog() {
       try {
-        const primaryApi = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : '/api/products';
-        let res = await fetch(`${primaryApi}?cb=${Date.now()}`).catch(() => null);
+        // 1. Try static synced products.json from website build
+        let res = await fetch(`/products.json?cb=${Date.now()}`).catch(() => null);
+        
+        // 2. If not found or empty, try live server API
         if (!res || !res.ok) {
-          // Fallback fetch from live Beelink Tailscale server IP if local API is unmounted
-          res = await fetch(`http://100.86.51.57:5000/api/products?cb=${Date.now()}`).catch(() => null);
+          const primaryApi = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : '/api/products';
+          res = await fetch(`${primaryApi}?cb=${Date.now()}`).catch(() => null);
+        }
+
+        if (!res || !res.ok) {
+          res = await fetch(`http://100.86.51.57:3002/api/products?cb=${Date.now()}`).catch(() => null);
         }
 
         if (res && res.ok) {
           const raw = await res.json();
-          if (Array.isArray(raw) && raw.length > 0) {
+          if (Array.isArray(raw)) {
             const mapped: CatalogPart[] = raw.map((item: any) => {
               const parsePrice = (v: any) => {
                 if (!v) return 0;
@@ -158,6 +164,11 @@ export default function PublicCatalogPage() {
               let sell = parsePrice(item.selling_price || item.sellingPrice || item.price || 0);
               if (sell === 0 && cost > 0) sell = cost * 1.35;
 
+              let imgs = Array.isArray(item.images) ? item.images.filter(Boolean) : [];
+              if ((item.image_url || item.imageUrl) && !imgs.includes(item.image_url || item.imageUrl)) {
+                imgs.unshift(item.image_url || item.imageUrl);
+              }
+
               return {
                 sku: item.sku || item.oem_number || 'TG-PART',
                 name: item.name || item.partName || 'Genuine Truck Replacement Part',
@@ -166,7 +177,8 @@ export default function PublicCatalogPage() {
                 costPrice: cost,
                 sellingPrice: sell,
                 stock: parseInt(item.stock_quantity || item.stockQuantity || item.stock || 10),
-                imageUrl: item.image_url || item.imageUrl || item.croppedImagePath || ''
+                imageUrl: imgs[0] || item.image_url || item.imageUrl || '',
+                images: imgs
               };
             });
             setParts(mapped);
@@ -174,19 +186,11 @@ export default function PublicCatalogPage() {
           }
         }
         
-        // Fallback sample data if API is initializing
-        setParts([
-          { sku: '1BOX 1L COOLANT GREEN', name: 'Heavy Duty Radiator Coolant 1L Green', category: 'Fluids & Lubricants', fitment: 'Universal Diesel Trucks', costPrice: 220, sellingPrice: 297, stock: 24, imageUrl: '' },
-          { sku: '1BOX 1L ATF', name: 'Automatic Transmission Fluid 1L Synthetic', category: 'Fluids & Lubricants', fitment: 'Isuzu / Hino / Fuso', costPrice: 280, sellingPrice: 378, stock: 24, imageUrl: '' },
-          { sku: '1BOX 4L ATF', name: 'Automatic Transmission Fluid 4L Gallon', category: 'Fluids & Lubricants', fitment: 'Heavy Automatic Gearboxes', costPrice: 950, sellingPrice: 1282.50, stock: 6, imageUrl: '' },
-          { sku: '1BOX BRAKEFLUID', name: 'DOT-4 Heavy Duty Brake Fluid 1L', category: 'Fluids & Lubricants', fitment: 'Hydraulic Air Brake Systems', costPrice: 190, sellingPrice: 256.50, stock: 20, imageUrl: '' },
-          { sku: '80KH1205', name: 'Air Horn Set w/ Solenoid 12V', category: 'Electrical', fitment: 'Universal / Isuzu / Hino', costPrice: 1000, sellingPrice: 1350, stock: 15, imageUrl: '/truckgear-logo-v4.png' },
-          { sku: '80KH2405', name: 'Air Horn Set w/ Solenoid 24V', category: 'Electrical', fitment: 'Universal / Fuso / Howo', costPrice: 1100, sellingPrice: 1485, stock: 12, imageUrl: '/truckgear-logo-v4.png' },
-          { sku: '82KH1205', name: 'Air Horn Chrome Triple Trumpet 12V', category: 'Electrical', fitment: 'Isuzu ELF / Forward', costPrice: 1400, sellingPrice: 1890, stock: 8, imageUrl: '/truckgear-logo-v4.png' },
-          { sku: 'TG-ENG-6HK1', name: 'Cylinder Liner Kit 6HK1 Heavy Duty', category: 'Engine', fitment: 'Isuzu Forward 6HK1', costPrice: 4500, sellingPrice: 6075, stock: 6, imageUrl: '' }
-        ]);
+        // No dummy sample items fallback: default to empty catalog list
+        setParts([]);
       } catch (err) {
         console.error('Failed to load public catalog:', err);
+        setParts([]);
       } finally {
         setIsLoading(false);
       }
