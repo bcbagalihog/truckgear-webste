@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { 
   Truck, ShieldCheck, Zap, Layers, MapPin, ExternalLink, 
   Coins, Recycle, Award, Sparkles, Scale, AlertTriangle, ArrowRight,
-  Shield, CheckCircle, Quote, Eye, Target, MessageCircle
+  Shield, CheckCircle, Quote, Eye, Target, MessageCircle, Search
 } from 'lucide-react';
 
 export default function TruckgearHome() {
@@ -57,13 +57,20 @@ export default function TruckgearHome() {
             <a href="#batteries" className="hover:text-amber-400 transition-colors">Batteries</a>
             <a href="#ceo" className="hover:text-amber-400 transition-colors">CEO Message</a>
           </nav>
-          <div>
+          <div className="flex items-center gap-2.5">
+            <Link 
+              href="/catalog" 
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-md shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all uppercase tracking-widest"
+            >
+              <Search className="w-4 h-4" />
+              <span>PARTS CATALOG</span>
+            </Link>
             <Link 
               href="/portal/login" 
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-md shadow-lg shadow-amber-500/10 hover:shadow-amber-500/30 transition-all duration-300 group uppercase tracking-widest"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-200 font-bold text-xs rounded-md transition-all uppercase tracking-widest"
             >
-              <span>Access PARTSMAN OS</span>
-              <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <span>PARTSMAN OS</span>
+              <ExternalLink className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
@@ -253,6 +260,17 @@ export default function TruckgearHome() {
               <p className="text-xs text-slate-400 leading-relaxed font-medium">{part.desc}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/catalog"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-xl shadow-amber-500/20 hover:scale-105"
+          >
+            <Search className="w-4 h-4" />
+            <span>Search & Browse Live Parts Inventory</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
