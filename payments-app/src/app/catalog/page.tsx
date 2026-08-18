@@ -13,6 +13,118 @@ interface CatalogPart {
   sellingPrice: number;
   stock: number;
   imageUrl?: string;
+  images?: string[];
+}
+
+function ProductCardItem({ p }: { p: CatalogPart }) {
+  const validImgs = (p.images || []).filter(Boolean);
+  if (validImgs.length === 0 && p.imageUrl) validImgs.push(p.imageUrl);
+
+  const [activeIdx, setActiveIdx] = useState(0);
+  const activeImg = validImgs[activeIdx] || validImgs[0] || '';
+
+  const upperName = p.name.toUpperCase();
+  const upperCat = p.category.toUpperCase();
+  const isFluid = upperName.includes('COOLANT') || upperName.includes('ATF') || upperName.includes('FLUID') || upperCat.includes('FLUID');
+  const isElectrical = upperCat.includes('ELECTRICAL') || upperName.includes('HORN');
+
+  return (
+    <div className="bg-slate-900/40 border border-slate-800 hover:border-amber-500/30 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 group shadow-lg">
+      <div>
+        {/* MAIN PHOTO CARD WITH ANGLE BADGE */}
+        <div className="aspect-video bg-slate-950 relative overflow-hidden border-b border-slate-850 flex items-center justify-center">
+          {activeImg ? (
+            <Image src={activeImg} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+          ) : (
+            <div className="text-center p-4">
+              {isFluid ? (
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-2 text-emerald-400">
+                  <Droplet className="w-6 h-6" />
+                </div>
+              ) : isElectrical ? (
+                <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-2 text-amber-400">
+                  <Zap className="w-6 h-6" />
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mx-auto mb-2 text-amber-500">
+                  <Truck className="w-6 h-6" />
+                </div>
+              )}
+              <span className="text-[10px] font-mono text-slate-300 font-bold block">TRUCKGEAR GENUINE</span>
+              <span className="text-[8px] font-mono text-slate-500 uppercase block">OEM SPECIFIED REPLACEMENT</span>
+            </div>
+          )}
+
+          <span className="absolute top-2 right-2 px-2 py-0.5 bg-slate-950/90 text-amber-400 font-mono font-bold text-[10px] rounded border border-slate-800">
+            {p.sku}
+          </span>
+
+          {validImgs.length > 0 && (
+            <span className="absolute top-2 left-2 px-2 py-0.5 bg-emerald-500/90 text-slate-950 font-mono font-black text-[9px] rounded border border-emerald-400 uppercase">
+              📷 {validImgs.length} {validImgs.length === 1 ? 'Angle' : 'Angles'}
+            </span>
+          )}
+        </div>
+
+        {/* INTERACTIVE THUMBNAIL ANGLE GALLERY STRIP */}
+        {validImgs.length > 1 && (
+          <div className="flex gap-1.5 p-2 bg-slate-950 border-b border-slate-850 overflow-x-auto">
+            {validImgs.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveIdx(i)}
+                className={`w-9 h-9 rounded border-2 overflow-hidden bg-slate-900 shrink-0 transition-all ${
+                  activeIdx === i ? 'border-amber-500 scale-105' : 'border-slate-800 opacity-60 hover:opacity-100'
+                }`}
+              >
+                <img src={img} alt={`Angle ${i + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="p-5 space-y-3">
+          <div className="flex gap-2 flex-wrap">
+            <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase ${isFluid ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : isElectrical ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400' : 'bg-slate-950 border border-slate-800 text-slate-300'}`}>
+              {p.category}
+            </span>
+            <span className="text-[9px] font-mono font-bold px-2 py-0.5 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded uppercase">
+              {p.fitment}
+            </span>
+          </div>
+
+          <h3 className="font-bold text-white text-sm line-clamp-2 leading-snug">
+            {p.name}
+          </h3>
+
+          <div className="bg-slate-950 border border-slate-850 p-3 rounded-xl flex justify-between items-baseline font-mono text-xs">
+            <span className="text-[9px] text-slate-400 uppercase font-bold">RETAIL STORE PRICE:</span>
+            <span className="text-lg font-black text-amber-500 font-mono">
+              {p.sellingPrice > 0 ? `₱${p.sellingPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'INQUIRE COST'}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center pt-1">
+            <span className={`text-[10px] font-mono font-bold ${p.stock > 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
+              ● {p.stock > 0 ? `${p.stock} IN STOCK` : 'AVAILABLE ON ORDER'}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-4 bg-slate-950 border-t border-slate-850">
+        <a
+          href={`https://wa.me/639285066385?text=Hello%20Truckgear!%20I%20would%20like%20to%20inquire%20about%20part%20${encodeURIComponent(p.sku)}%20(${encodeURIComponent(p.name)})%20priced%20at%20P${p.sellingPrice.toFixed(2)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
+        >
+          <span>Inquire Item Quote</span>
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </div>
+  );
 }
 
 export default function PublicCatalogPage() {
@@ -25,8 +137,14 @@ export default function PublicCatalogPage() {
   useEffect(() => {
     async function loadCatalog() {
       try {
-        const res = await fetch('/api/products?cb=' + Date.now());
-        if (res.ok) {
+        const primaryApi = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : '/api/products';
+        let res = await fetch(`${primaryApi}?cb=${Date.now()}`).catch(() => null);
+        if (!res || !res.ok) {
+          // Fallback fetch from live Beelink Tailscale server IP if local API is unmounted
+          res = await fetch(`http://100.86.51.57:5000/api/products?cb=${Date.now()}`).catch(() => null);
+        }
+
+        if (res && res.ok) {
           const raw = await res.json();
           if (Array.isArray(raw) && raw.length > 0) {
             const mapped: CatalogPart[] = raw.map((item: any) => {
@@ -76,6 +194,9 @@ export default function PublicCatalogPage() {
     loadCatalog();
   }, []);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
+
   const categories = ['ALL', 'FLUIDS', 'ELECTRICAL', 'ENGINE', 'BRAKE', 'SUSPENSION', 'TRANSMISSION', 'FILTERS'];
   const fitments = ['ALL', 'ISUZU', 'HINO', 'FUSO', 'HOWO', 'SHACMAN', 'FAW', 'UNIVERSAL'];
 
@@ -86,6 +207,10 @@ export default function PublicCatalogPage() {
     const matchesFit = selectedFitment === 'ALL' || p.fitment.toUpperCase().includes(selectedFitment);
     return matchesText && matchesCat && matchesFit;
   });
+
+  const totalItems = filteredParts.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+  const pageItems = filteredParts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-amber-500 selection:text-slate-950">
@@ -214,88 +339,40 @@ export default function PublicCatalogPage() {
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredParts.map((p, idx) => {
-              const upperName = p.name.toUpperCase();
-              const upperCat = p.category.toUpperCase();
-              const isFluid = upperName.includes('COOLANT') || upperName.includes('ATF') || upperName.includes('FLUID') || upperCat.includes('FLUID');
-              const isElectrical = upperCat.includes('ELECTRICAL') || upperName.includes('HORN');
-              const isEngine = upperCat.includes('ENGINE') || upperName.includes('PISTON') || upperName.includes('LINER');
+            {pageItems.map((p, idx) => (
+              <ProductCardItem key={idx} p={p} />
+            ))}
+          </div>
+        )}
 
-              return (
-                <div key={idx} className="bg-slate-900/40 border border-slate-800 hover:border-amber-500/30 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 group shadow-lg">
-                  <div>
-                    {/* PHOTO CARD WITH HIGH-CONTRAST FALLBACK BADGE */}
-                    <div className="aspect-video bg-slate-950 relative overflow-hidden border-b border-slate-850 flex items-center justify-center">
-                      {p.imageUrl ? (
-                        <Image src={p.imageUrl} alt={p.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="text-center p-4">
-                          {isFluid ? (
-                            <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto mb-2 text-emerald-400">
-                              <Droplet className="w-6 h-6" />
-                            </div>
-                          ) : isElectrical ? (
-                            <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-2 text-amber-400">
-                              <Zap className="w-6 h-6" />
-                            </div>
-                          ) : (
-                            <div className="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mx-auto mb-2 text-amber-500">
-                              <Truck className="w-6 h-6" />
-                            </div>
-                          )}
-                          <span className="text-[10px] font-mono text-slate-300 font-bold block">TRUCKGEAR GENUINE</span>
-                          <span className="text-[8px] font-mono text-slate-500 uppercase block">OEM SPECIFIED REPLACEMENT</span>
-                        </div>
-                      )}
-                      <span className="absolute top-2 right-2 px-2 py-0.5 bg-slate-950/90 text-amber-400 font-mono font-bold text-[10px] rounded border border-slate-800">
-                        {p.sku}
-                      </span>
-                    </div>
+        {/* 30 ITEMS PER PAGE PAGINATION FOOTER BAR */}
+        {!isLoading && totalItems > 0 && (
+          <div className="flex flex-col sm:flex-row justify-between items-center mt-10 pt-6 border-t border-slate-900 gap-4 font-mono text-xs">
+            <div className="text-slate-400 font-medium">
+              Showing <span className="text-amber-500 font-bold">{(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span className="text-white font-bold">{totalItems}</span> Store Parts (30 items per page)
+            </div>
 
-                    <div className="p-5 space-y-3">
-                      <div className="flex gap-2 flex-wrap">
-                        <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase ${isFluid ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : isElectrical ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400' : 'bg-slate-950 border border-slate-800 text-slate-300'}`}>
-                          {p.category}
-                        </span>
-                        <span className="text-[9px] font-mono font-bold px-2 py-0.5 bg-sky-500/10 border border-sky-500/20 text-sky-400 rounded uppercase">
-                          {p.fitment}
-                        </span>
-                      </div>
+            <div className="flex items-center gap-2">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => { setCurrentPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-800 rounded-lg text-white font-bold transition-colors"
+              >
+                ◄ PREV
+              </button>
 
-                      <h3 className="font-bold text-white text-sm line-clamp-2 leading-snug">
-                        {p.name}
-                      </h3>
+              <span className="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-amber-500 font-bold">
+                Page {currentPage} of {totalPages}
+              </span>
 
-                      {/* CLEAN RETAIL PRICE ONLY */}
-                      <div className="bg-slate-950 border border-slate-850 p-3 rounded-xl flex justify-between items-baseline font-mono text-xs">
-                        <span className="text-[9px] text-slate-400 uppercase font-bold">RETAIL STORE PRICE:</span>
-                        <span className="text-lg font-black text-amber-500 font-mono">
-                          {p.sellingPrice > 0 ? `₱${p.sellingPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'INQUIRE COST'}
-                        </span>
-                      </div>
-
-                      <div className="flex justify-between items-center pt-1">
-                        <span className={`text-[10px] font-mono font-bold ${p.stock > 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
-                          ● {p.stock > 0 ? `${p.stock} IN STOCK` : 'AVAILABLE ON ORDER'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-slate-950 border-t border-slate-850">
-                    <a
-                      href={`https://wa.me/639285066385?text=Hello%20Truckgear!%20I%20would%20like%20to%20inquire%20about%20part%20${encodeURIComponent(p.sku)}%20(${encodeURIComponent(p.name)})%20priced%20at%20P${p.sellingPrice.toFixed(2)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
-                    >
-                      <span>Inquire Item Quote</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
+              <button
+                disabled={currentPage >= totalPages}
+                onClick={() => { setCurrentPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-800 rounded-lg text-white font-bold transition-colors"
+              >
+                NEXT ►
+              </button>
+            </div>
           </div>
         )}
       </div>

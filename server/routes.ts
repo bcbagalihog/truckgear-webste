@@ -9,14 +9,17 @@ import path from "path";
 import express from "express";
 import fs from "fs";
 import Shopify from "shopify-api-node";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { cropCatalogItemImage } from "./services/catalogCropper";
 import { db } from "./db";
 import { eq, and, desc, ilike, inArray, gte, lte, sql } from "drizzle-orm";
 import {
   salesInvoices, salesInvoiceItems, drawerSessions,
   accountsPayable, counterReceiptChecks, purchaseOrders,
   billingCollections, billingCollectionItems, billingCollectionPayments,
-  products, inventoryTransactions,
+  products, inventoryTransactions, supplierCatalogItems,
 } from "@shared/schema";
+
 
 const uploadsDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -47,10 +50,300 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  // CORS Middleware for tgphparts.com & Beelink Server API
+  app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") {
+      return res.sendStatus(200);
+    }
+    next();
+  });
+
   await setupAuth(app);
   registerAuthRoutes(app);
 
   app.use("/uploads", express.static(uploadsDir));
+  app.use("/uploads", express.static(path.join(process.cwd(), "public", "uploads")));
+
+  // --- HEIC AUTO-CONVERTER ENDPOINT ---
+  app.post("/api/convert-heic", async (req, res) => {
+    try {
+      const { imageBase64 } = req.body;
+      if (!imageBase64) {
+        return res.status(400).json({ message: "No imageBase64 provided" });
+      }
+      const sharp = (await import("sharp")).default;
+      const rawBuffer = Buffer.from(imageBase64.replace(/^data:image\/\w+;base64,/, ""), "base64");
+      const jpegBuffer = await sharp(rawBuffer).jpeg({ quality: 85 }).toBuffer();
+      const convertedBase64 = `data:image/jpeg;base64,${jpegBuffer.toString("base64")}`;
+      res.json({ imageBase64: convertedBase64 });
+    } catch (e: any) {
+      console.error("[HEIC_CONVERT_ERROR]", e?.message);
+      res.status(500).json({ message: "Failed to convert HEIC image: " + e?.message });
+    }
+  });
+
+  // --- AGENT #6: AI CATALOG DIGITIZER SCANNER ---
+  app.post("/api/agent/scan-catalog", async (req, res) => {
+    try {
+      let { imageBase64 } = req.body;
+      if (!imageBase64) {
+        return res.status(400).json({ message: "No imageBase64 payload provided" });
+      }
+
+      // Auto-convert HEIC/HEIF or non-standard image buffers via sharp to JPEG
+      try {
+        const sharp = (await import("sharp")).default;
+        const rawBuffer = Buffer.from(imageBase64.replace(/^data:image\/\w+;base64,/, ""), "base64");
+        const jpegBuffer = await sharp(rawBuffer).jpeg({ quality: 85 }).toBuffer();
+        imageBase64 = `data:image/jpeg;base64,${jpegBuffer.toString("base64")}`;
+      } catch (sharpErr) {
+        console.log("[SHARP_PASSTHROUGH] Using original image payload");
+      }
+
+      let apiKey = process.env.GEMINI_API_KEY || "";
+      if (!apiKey) {
+        const configPaths = [
+          path.join(process.cwd(), "data", "gemini_config.json"),
+          path.join(process.cwd(), "gemini_config.json"),
+          path.join(process.cwd(), "..", "truckgear-os", "data", "gemini_config.json")
+        ];
+        for (const p of configPaths) {
+          if (fs.existsSync(p)) {
+            try {
+              const cfg = JSON.parse(fs.readFileSync(p, "utf8"));
+              if (cfg.apiKey) { apiKey = cfg.apiKey; break; }
+            } catch (_) {}
+          }
+        }
+      }
+
+      if (!apiKey) {
+        return res.status(400).json({
+          message: "Gemini API Key is not configured. Please set GEMINI_API_KEY environment variable or save key in Settings."
+        });
+      }
+
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash",
+        generationConfig: {
+          temperature: 0.1,
+          responseMimeType: "application/json",
+        }
+      });
+
+      const mimeType = "image/jpeg";
+      const cleanBase64 = imageBase64.replace(/^data:image\/\w+;base64,/, "");
+
+
+      const prompt = `You are an expert AI catalog data extraction engine for Truckgear Philippines Co., specializing in heavy-duty truck replacement parts (Isuzu, Hino, Fuso, Howo, Shacman, FAW, Foton, Weichai, etc.).
+
+Analyze this physical supplier price book or catalog page and extract ALL product items from grid or tabular layouts.
+
+Requirements:
+1. Detect global header/footer page discounts (e.g. "LESS 10%", "DISCOUNT 15%", "NET COST"). If present, extract discount_rate as a number (e.g. 10.0). If no global discount header, set discount_rate to 0.00.
+2. For each part item extract:
+   - "category": Category header (e.g. "Brake System", "Engine Parts", "Clutch System", "Electrical", "Filters", "Suspension")
+   - "subcategory": Subcategory if visible (e.g. "Turbocharger", "Clutch Disc", "Brake Pad")
+   - "oem_number": Explicit OEM part number if visible (e.g., "8-97123-456-0")
+   - "part_name": Descriptive name of the item
+   - "compatible_brand": Target truck brand (e.g., "Isuzu", "Hino", "Fuso", "Howo", "Shacman")
+   - "compatible_models": Vehicle fitment models (e.g., "6HK1, Forward", "Fighter 6D16", "500 Series")
+   - "supplier_gross_price": Listed gross price in PHP (number only, e.g. 2500.00)
+   - "discount_rate": Percentage discount (number only, e.g. 10.00)
+   - "net_cost": Computed net cost = supplier_gross_price * (1 - discount_rate / 100)
+   - "image_bounding_box": If a product image/diagram is present for this item, return [ymin, xmin, ymax, xmax] as integers normalized to 0-1000. If no product image, set to null.
+
+3. MULTI-VARIANT SPLITTING: If a single table cell or row lists multiple variants (e.g., "Assembly" vs "Repair Kit"), split them into separate item objects in the returned array.
+
+Return ONLY a valid JSON object matching this schema:
+{
+  "supplier": "Supplier Name or Catalog Title",
+  "discountHeader": "LESS 10%",
+  "items": [
+    {
+      "category": "Engine Parts",
+      "subcategory": "Turbocharger",
+      "oem_number": "8-97123-456-0",
+      "part_name": "Turbocharger Assembly 6HK1",
+      "compatible_brand": "Isuzu",
+      "compatible_models": "6HK1, Forward",
+      "supplier_gross_price": 18500.00,
+      "discount_rate": 10.00,
+      "net_cost": 16650.00,
+      "image_bounding_box": [120, 45, 380, 290]
+    }
+  ]
+}`;
+
+      const response = await model.generateContent([
+        prompt,
+        {
+          inlineData: {
+            mimeType: mimeType,
+            data: cleanBase64,
+          }
+        }
+      ]);
+
+      const rawText = response.response.text();
+      let parsedJson: any;
+      try {
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        parsedJson = JSON.parse(jsonMatch ? jsonMatch[0] : rawText);
+      } catch (err) {
+        console.error("[CATALOG_AI_PARSE_ERROR]", rawText);
+        return res.status(500).json({ message: "Failed to parse catalog AI output. Try a clearer image." });
+      }
+
+      const supplierName = parsedJson.supplier || "Supplier Price Book";
+      const discountHeader = parsedJson.discountHeader || "";
+      const rawItems = Array.isArray(parsedJson.items) ? parsedJson.items : [];
+
+      let croppedCount = 0;
+      const processedItems = await Promise.all(
+        rawItems.map(async (item: any) => {
+          const gross = parseFloat(item.supplier_gross_price) || 0;
+          const disc = parseFloat(item.discount_rate) || 0;
+          const net = parseFloat(item.net_cost) || (gross * (1 - disc / 100));
+
+          let croppedPath: string | null = null;
+          if (item.image_bounding_box && Array.isArray(item.image_bounding_box) && item.image_bounding_box.length === 4) {
+            croppedPath = await cropCatalogItemImage(imageBase64, item.image_bounding_box);
+            if (croppedPath) croppedCount++;
+          }
+
+          return {
+            category: item.category || "General Parts",
+            subcategory: item.subcategory || "",
+            oemNumber: item.oem_number || `OEM-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            partName: item.part_name || "Scanned Part",
+            compatibleBrand: item.compatible_brand || "TruckGear",
+            compatibleModels: item.compatible_models || "Universal",
+            supplierGrossPrice: gross.toFixed(2),
+            discountRate: disc.toFixed(2),
+            netCost: net.toFixed(2),
+            imageBoundingBox: item.image_bounding_box || null,
+            croppedImagePath: croppedPath,
+          };
+        })
+      );
+
+      // 4. Send Telegram Alert via Agent #5 if Telegram Config is present
+      try {
+        const telegramConfigPath = path.join(process.cwd(), "data", "telegram_config.json");
+        if (fs.existsSync(telegramConfigPath)) {
+          const tgConfig = JSON.parse(fs.readFileSync(telegramConfigPath, "utf8"));
+          if (tgConfig.token && tgConfig.chatId) {
+            const msg = `🛠️ <b>PARTSMAN AI Catalog Alert</b>\n\nStaff scanned a catalog page!\n• <b>Supplier</b>: ${supplierName}\n• <b>Header Discount</b>: ${discountHeader || 'None'}\n• <b>Items Extracted</b>: ${processedItems.length} parts\n• <b>Cropped Thumbnails</b>: ${croppedCount} photos\n\n<i>Pending commit in truckgear-os.</i>`;
+            fetch(`https://api.telegram.org/bot${tgConfig.token}/sendMessage`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ chat_id: tgConfig.chatId, text: msg, parse_mode: "HTML" })
+            }).catch(() => {});
+          }
+        }
+      } catch (_) {}
+
+      res.json({
+        supplier: supplierName,
+        discountHeader,
+        itemsCount: processedItems.length,
+        croppedCount,
+        items: processedItems,
+      });
+    } catch (err: any) {
+      console.error("[CATALOG_AI_ERROR]", err);
+      res.status(500).json({ message: err.message || "Failed to process catalog page with AI." });
+    }
+  });
+
+  // --- COMMIT CATALOG ITEMS TO POSTGRESQL & AUTO-SYNC KNOWLEDGE FILE ---
+  app.post("/api/admin/catalog-ai/commit", async (req, res) => {
+    try {
+      const { items, syncToProducts } = req.body;
+      if (!Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: "No items provided for commit" });
+      }
+
+      // 1. Insert into supplier_catalog_items PostgreSQL table
+      const inserted = await db.insert(supplierCatalogItems).values(items).returning();
+
+      // 2. Auto-sync to knowledge/suppliers/master_pricelist_2026.md
+      try {
+        const mdPath = path.join(process.cwd(), "knowledge", "suppliers", "master_pricelist_2026.md");
+        let mdContent = "";
+        if (fs.existsSync(mdPath)) {
+          mdContent = fs.readFileSync(mdPath, "utf8");
+        } else {
+          const mdDir = path.dirname(mdPath);
+          if (!fs.existsSync(mdDir)) fs.mkdirSync(mdDir, { recursive: true });
+          mdContent = "# Master Pricelist 2026 - Suppliers\n\n| Part Name | Part Number | Supplier | Price (PHP) | Notes |\n|-----------|-------------|----------|-------------|-------|\n";
+        }
+
+        let newRows = "";
+        for (const item of items) {
+          const pName = item.partName || "Unknown Part";
+          const pNum = item.oemNumber || "N/A";
+          const supplier = item.compatibleBrand || "TruckGear Supplier";
+          const price = Number(item.netCost || item.supplierGrossPrice || 0).toFixed(2);
+          const notes = `${item.category || ''} - ${item.compatibleModels || ''}`.trim();
+          newRows += `| ${pName} | ${pNum} | ${supplier} | ${price} | ${notes} |\n`;
+        }
+
+        mdContent += newRows;
+        fs.writeFileSync(mdPath, mdContent, "utf8");
+      } catch (mdErr) {
+        console.error("[KNOWLEDGE_SYNC_ERROR]", mdErr);
+      }
+
+      // 3. Optional sync to main products table (with 35% selling price margin)
+      if (syncToProducts) {
+        for (const item of items) {
+          if (!item.oemNumber) continue;
+          const net = Number(item.netCost || item.supplierGrossPrice || 0);
+          const selling = (net * 1.35).toFixed(2);
+          await db.insert(products).values({
+            sku: item.oemNumber,
+            name: item.partName || "Scanned Part",
+            category: item.category || "General",
+            brand: item.compatibleBrand || "TruckGear",
+            costPrice: net.toFixed(2),
+            sellingPrice: selling,
+            stockQuantity: 0,
+            reorderPoint: 5,
+          }).onConflictDoUpdate({
+            target: products.sku,
+            set: {
+              name: item.partName,
+              costPrice: net.toFixed(2),
+              sellingPrice: selling,
+            }
+          });
+        }
+      }
+
+      res.json({ success: true, count: inserted.length });
+    } catch (err: any) {
+      console.error("[CATALOG_COMMIT_ERROR]", err);
+      res.status(500).json({ message: err.message || "Failed to commit catalog items" });
+    }
+  });
+
+  // --- GET SUPPLIER REFERENCE CATALOG POOL (2,565 ITEMS) ---
+  app.get("/api/admin/supplier-catalog", async (req, res) => {
+    try {
+      const items = await db.select().from(supplierCatalogItems).orderBy(desc(supplierCatalogItems.id));
+      res.json(items);
+    } catch (err: any) {
+      console.error("[SUPPLIER_CATALOG_GET_ERROR]", err);
+      res.status(500).json({ message: "Failed to fetch supplier reference catalog" });
+    }
+  });
+
 
   // --- Image Upload ---
   app.post("/api/upload", upload.single("image"), (req, res) => {
@@ -715,7 +1008,8 @@ export async function registerRoutes(
 
   app.patch("/api/admin/users/:id/toggle-status", isAuthenticated, async (req, res) => {
     try {
-      const user = await storage.toggleUserStatus(req.params.id, req.body.isActive);
+      const userId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      const user = await storage.toggleUserStatus(userId, req.body.isActive);
       res.json(user);
     } catch (e) {
       console.error("admin toggle status error:", e);
@@ -725,7 +1019,8 @@ export async function registerRoutes(
 
   app.put("/api/admin/users/:id", isAuthenticated, async (req, res) => {
     try {
-      const user = await storage.updateUser(req.params.id, req.body);
+      const userId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      const user = await storage.updateUser(userId, req.body);
       res.json(user);
     } catch (e) {
       console.error("admin update user error:", e);
@@ -735,17 +1030,19 @@ export async function registerRoutes(
 
   app.delete("/api/admin/users/:id", isAuthenticated, async (req, res) => {
     try {
+      const userId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
       const sessionUserId = (req.session as any).userId;
-      if (req.params.id === sessionUserId) {
+      if (userId === sessionUserId) {
         return res.status(400).json({ message: "Cannot delete your own account" });
       }
-      await storage.deleteUser(req.params.id);
+      await storage.deleteUser(userId);
       res.json({ success: true });
     } catch (e) {
       console.error("admin delete user error:", e);
       res.status(500).json({ message: "Failed to delete user" });
     }
   });
+
 
   app.get("/api/companies", isAuthenticated, async (req, res) => {
     try {

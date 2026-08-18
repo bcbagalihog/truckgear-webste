@@ -10,6 +10,7 @@ import {
   varchar,
   numeric,
   date,
+  index,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
@@ -46,6 +47,8 @@ export const products = pgTable("products", {
     .notNull()
     .default("0"),
   location: text("location"),
+  imageUrl: text("image_url"),
+  images: jsonb("images").default([]),
   companyId: integer("company_id").notNull().default(1),
 });
 
@@ -300,6 +303,29 @@ export const salesInvoiceItems = pgTable("sales_invoice_items", {
   amount: numeric("amount").notNull(),
 });
 
+// === SUPPLIER CATALOG ITEMS (AI INGESTION) ===
+export const supplierCatalogItems = pgTable(
+  "supplier_catalog_items",
+  {
+    id: serial("id").primaryKey(),
+    category: varchar("category", { length: 100 }),
+    subcategory: varchar("subcategory", { length: 100 }),
+    oemNumber: varchar("oem_number", { length: 100 }),
+    partName: varchar("part_name", { length: 255 }),
+    compatibleBrand: varchar("compatible_brand", { length: 100 }),
+    compatibleModels: varchar("compatible_models", { length: 255 }),
+    supplierGrossPrice: numeric("supplier_gross_price", { precision: 10, scale: 2 }),
+    discountRate: numeric("discount_rate", { precision: 5, scale: 2 }).default("0.00"),
+    netCost: numeric("net_cost", { precision: 10, scale: 2 }),
+    imageBoundingBox: jsonb("image_bounding_box"),
+    croppedImagePath: varchar("cropped_image_path", { length: 500 }),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    oemIdx: index("idx_supplier_catalog_oem").on(table.oemNumber),
+  })
+);
+
 // === RELATIONS (CRITICAL FOR DRIZZLE) ===
 export const usersRelations = relations(users, ({ many }) => ({
   drawerSessions: many(drawerSessions),
@@ -444,18 +470,34 @@ export const insertSalesInvoiceSchema = createInsertSchema(salesInvoices).omit({
 export const insertSalesInvoiceItemSchema = createInsertSchema(
   salesInvoiceItems,
 ).omit({ id: true });
+export const insertSupplierCatalogItemSchema = createInsertSchema(
+  supplierCatalogItems,
+).omit({ id: true, createdAt: true });
 
 // === TYPES ===
 export type Product = typeof products.$inferSelect;
+export type InsertProduct = typeof products.$inferInsert;
+export type ProductWithDetails = Product & { oemNumbers?: any[]; compatibility?: any[] };
 export type SalesInvoice = typeof salesInvoices.$inferSelect;
+export type InsertSalesInvoice = typeof salesInvoices.$inferInsert;
 export type SalesInvoiceItem = typeof salesInvoiceItems.$inferSelect;
+export type InsertSalesInvoiceItem = typeof salesInvoiceItems.$inferInsert;
 export type DrawerSession = typeof drawerSessions.$inferSelect;
+export type InsertDrawerSession = typeof drawerSessions.$inferInsert;
 export type Customer = typeof customers.$inferSelect;
+export type InsertCustomer = typeof customers.$inferInsert;
 export type Vendor = typeof vendors.$inferSelect;
+export type InsertVendor = typeof vendors.$inferInsert;
 export type SalesOrder = typeof salesOrders.$inferSelect;
+export type InsertSalesOrder = typeof salesOrders.$inferInsert;
 export type SalesOrderItem = typeof salesOrderItems.$inferSelect;
+export type InsertSalesOrderItem = typeof salesOrderItems.$inferInsert;
+export type SalesOrderWithDetails = SalesOrder & { items?: SalesOrderItem[] };
 export type PurchaseOrder = typeof purchaseOrders.$inferSelect;
+export type InsertPurchaseOrder = typeof purchaseOrders.$inferInsert;
 export type PurchaseOrderItem = typeof purchaseOrderItems.$inferSelect;
+export type InsertPurchaseOrderItem = typeof purchaseOrderItems.$inferInsert;
+export type PurchaseOrderWithDetails = PurchaseOrder & { items?: PurchaseOrderItem[] };
 export type AccountsPayable = typeof accountsPayable.$inferSelect;
 export type InsertAccountsPayable = typeof accountsPayable.$inferInsert;
 export type CounterReceipt = typeof counterReceipts.$inferSelect;
@@ -470,3 +512,7 @@ export type BillingCollectionItem = typeof billingCollectionItems.$inferSelect;
 export type InsertBillingCollectionItem = typeof billingCollectionItems.$inferInsert;
 export type BillingCollectionPayment = typeof billingCollectionPayments.$inferSelect;
 export type InsertBillingCollectionPayment = typeof billingCollectionPayments.$inferInsert;
+export type SupplierCatalogItem = typeof supplierCatalogItems.$inferSelect;
+export type InsertSupplierCatalogItem = typeof supplierCatalogItems.$inferInsert;
+
+
