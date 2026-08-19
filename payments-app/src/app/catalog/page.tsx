@@ -114,12 +114,19 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
 
       <div className="p-4 bg-slate-950 border-t border-slate-850">
         <a
-          href={`https://wa.me/639285066385?text=Hello%20Truckgear!%20I%20would%20like%20to%20inquire%20about%20part%20${encodeURIComponent(p.sku)}%20(${encodeURIComponent(p.name)})%20priced%20at%20P${p.sellingPrice.toFixed(2)}`}
+          href={`viber://chat?number=%2B639285060385`}
+          onClick={(e) => {
+            const text = `Hello TruckGear! I would like to inquire about part: ${p.sku} - ${p.name} (P${p.sellingPrice.toFixed(2)})`;
+            if (typeof window !== 'undefined') {
+              window.open(`viber://chat?number=%2B639285060385&draft=${encodeURIComponent(text)}`, '_blank');
+            }
+          }}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
+          className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
         >
-          <span>Inquire Item Quote</span>
+          <MessageCircle className="w-4 h-4 text-slate-950 fill-slate-950" />
+          <span>Inquire via Viber</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
@@ -137,17 +144,21 @@ export default function PublicCatalogPage() {
   useEffect(() => {
     async function loadCatalog() {
       try {
-        // 1. Try static synced products.json from website build
-        let res = await fetch(`/products.json?cb=${Date.now()}`).catch(() => null);
-        
-        // 2. If not found or empty, try live server API
+        // 1. Try live server API first (Beelink Production Server / Tailscale / local)
+        let res = await fetch(`http://100.86.51.57:3002/api/products?cb=${Date.now()}`).catch(() => null);
+
+        if (!res || !res.ok) {
+          res = await fetch(`http://192.168.254.121:3002/api/products?cb=${Date.now()}`).catch(() => null);
+        }
+
         if (!res || !res.ok) {
           const primaryApi = process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/products` : '/api/products';
           res = await fetch(`${primaryApi}?cb=${Date.now()}`).catch(() => null);
         }
 
+        // 2. Fallback to static products.json bundle
         if (!res || !res.ok) {
-          res = await fetch(`http://100.86.51.57:3002/api/products?cb=${Date.now()}`).catch(() => null);
+          res = await fetch(`/products.json?cb=${Date.now()}`).catch(() => null);
         }
 
         if (res && res.ok) {
