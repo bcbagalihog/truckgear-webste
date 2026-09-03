@@ -65,7 +65,7 @@ export default function TTPSDashboard() {
           </div>
           
           <div className="flex flex-wrap gap-4 relative z-10 items-center w-full md:w-auto">
-             <Link href="/accounting" className="bg-[#1E4FD8] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-[0_0_15px_rgba(30,79,216,0.4)] flex items-center gap-2 text-sm">
+             <Link href="/expenditure" className="bg-[#1E4FD8] text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition shadow-[0_0_15px_rgba(30,79,216,0.4)] flex items-center gap-2 text-sm">
                 <span>📉</span> Expenditure Ledger
              </Link>
              <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-emerald-950 bg-emerald-950/20 text-emerald-400 font-mono text-xs shadow-[0_0_15px_rgba(16,185,129,0.1)]">
@@ -107,17 +107,17 @@ export default function TTPSDashboard() {
             </span>
           </Link>
 
-          <div className="p-8 rounded-2xl border border-slate-800 opacity-60 relative overflow-hidden"
-               style={{ background: 'rgba(255,255,255,0.01)' }}>
-            <div className="absolute top-4 right-4 px-2 py-1 bg-slate-800 text-xs text-slate-400 font-mono rounded">LOCKED</div>
+          <Link href="/logistics" className="p-8 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition group relative overflow-hidden block"
+               style={{ background: 'rgba(255,255,255,0.02)' }}>
+            <div className="absolute top-4 right-4 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[10px] rounded font-bold uppercase tracking-wider">ONLINE</div>
             <h2 className="text-2xl font-bold text-white mb-3 flex items-center gap-3">
-              <span className="text-slate-500">🚚</span> Logistics
+              <span className="text-emerald-400">🚚</span> Logistics & Delivery Receipts
             </h2>
-            <p className="text-[#94A3B8] mb-8 font-medium line-clamp-2 text-sm">Fleet tracking and delivery receipt management. System upgrade pending.</p>
-            <button disabled className="inline-block bg-slate-800 text-slate-500 px-6 py-2 rounded-lg font-bold cursor-not-allowed">
-              Module Offline
-            </button>
-          </div>
+            <p className="text-[#94A3B8] mb-8 font-medium line-clamp-2 text-sm">Live fleet shipment dispatch & signed proof of delivery (POD) vault for PH GLOBAL JET EXPRESS INC.</p>
+            <span className="inline-block border border-emerald-500 text-emerald-400 px-6 py-2 rounded-lg font-bold group-hover:bg-emerald-500 group-hover:text-black transition">
+              View Delivery Receipts →
+            </span>
+          </Link>
         </div>
 
         {/* Bot Status Footer */}
