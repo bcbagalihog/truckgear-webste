@@ -6,8 +6,15 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
+import fs from "fs";
+
 console.log("📦 Building frontend (Vite)...");
 execSync("npx vite build", { stdio: "inherit", cwd: root });
+
+// Copy _redirects file for Cloudflare Pages SPA routing
+try {
+  fs.copyFileSync(path.join(root, "client/public/_redirects"), path.join(root, "dist/public/_redirects"));
+} catch (e) {}
 
 console.log("🔧 Building backend (esbuild)...");
 await esbuild.build({
