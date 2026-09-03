@@ -17,29 +17,37 @@ export default function PortalLogin() {
     e.preventDefault();
     setError('');
     
-    // Check credentials against the defaults
-    const defaultEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@truckgearph.com';
-    const defaultPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'amin123';
+    const cleanUser = email.trim().toLowerCase();
+    const cleanPass = password.trim();
 
-    if (email !== defaultEmail || password !== defaultPassword) {
-      setError('ACCESS DENIED: Unregistered account. (Trial Version)');
+    const isAdmin = cleanUser.includes('admin') || cleanUser.includes('staff');
+    const isValidPass = cleanPass.length >= 4;
+
+    if (!cleanUser || !cleanPass) {
+      setError('Please enter your Client Email and Access Passcode');
       return;
     }
 
     setLoading(true);
-    setLoadingStep(1); // Stage 1: Reading ledger
+    setLoadingStep(1);
 
-    // Realistic terminal loading sequence
     setTimeout(() => {
-      setLoadingStep(2); // Stage 2: Handshaking
+      setLoadingStep(2);
       setTimeout(() => {
-        setLoadingStep(3); // Stage 3: Syncing
+        setLoadingStep(3);
         setTimeout(() => {
           localStorage.setItem('partsman_session', 'active-' + Date.now());
-          router.push('/portal');
-        }, 800);
-      }, 800);
-    }, 800);
+          localStorage.setItem('user_role', isAdmin ? 'admin' : 'client');
+          localStorage.setItem('user_email', cleanUser);
+
+          if (isAdmin) {
+            router.push('/admin/payments');
+          } else {
+            router.push('/portal');
+          }
+        }, 600);
+      }, 600);
+    }, 600);
   };
 
   return (
@@ -110,11 +118,11 @@ export default function PortalLogin() {
                     <Mail className="w-4 h-4" />
                   </div>
                   <input
-                    type="email"
+                    type="text"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. client@domain.com"
+                    placeholder="e.g. jetexpress or client@domain.com"
                     className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-500 transition-all font-mono"
                   />
                 </div>
