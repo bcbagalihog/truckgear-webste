@@ -1,0 +1,67 @@
+[
+  {
+    "id": "RFQ-2026-0890",
+    "date": "2026-08-21",
+    "targetFleetUnit": "Fuso Super Great Cargo Hauler (DEF-5678)",
+    "preparedBy": "Procurement Manager",
+    "status": "Quotation Ready",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "suppliers": [
+      { "id": "truckgear", "name": "TruckGear Philippines Co.", "isTruckgear": true },
+      { "id": "monroe", "name": "Monroe Cabin Systems Co." },
+      { "id": "meritor", "name": "Meritor Heavy-Duty Axles" }
+    ],
+    "items": [
+      {
+        "id": "ITEM-1",
+        "sku": "TG-CLUTCH-99",
+        "name": "Clutch Assembly Kit v2 (Heavy Duty)",
+        "qty": 2,
+        "prices": { "truckgear": 14500, "monroe": 16200, "meritor": 15800 }
+      },
+      {
+        "id": "ITEM-2",
+        "sku": "TG-BRAKE-202",
+        "name": "Full Performance Rear Brake Pad Set",
+        "qty": 4,
+        "prices": { "truckgear": 4200, "monroe": 4900, "meritor": 4600 }
+      },
+      {
+        "id": "ITEM-3",
+        "sku": "TG-BELT-404",
+        "name": "Premium Double-Ribbed Alternator Fan Belt",
+        "qty": 2,
+        "prices": { "truckgear": 1850, "monroe": 2100, "meritor": 2000 }
+      }
+    ]
+  },
+  {
+    "id": "RFQ-2026-0875",
+    "date": "2026-08-19",
+    "targetFleetUnit": "Isuzu Giga 10-Wheeler Dump Truck (ABC-1234)",
+    "preparedBy": "Depot Supervisor",
+    "status": "Quotation Ready",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "suppliers": [
+      { "id": "truckgear", "name": "TruckGear Philippines Co.", "isTruckgear": true },
+      { "id": "koyorad", "name": "KoyoRad Aluminum Coolant Ltd." },
+      { "id": "manila_parts", "name": "Manila Heavy Fleet Parts Traders" }
+    ],
+    "items": [
+      {
+        "id": "ITEM-1",
+        "sku": "JET-OIL-001",
+        "name": "Fleet Oil Filter Core (Isuzu Giga)",
+        "qty": 10,
+        "prices": { "truckgear": 1200, "koyorad": 1450, "manila_parts": 1380 }
+      },
+      {
+        "id": "ITEM-2",
+        "sku": "JET-FLUID-303",
+        "name": "Radiator Coolant Pre-Mix (Gallon)",
+        "qty": 5,
+        "prices": { "truckgear": 850, "koyorad": 990, "manila_parts": 920 }
+      }
+    ]
+  }
+]

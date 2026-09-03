@@ -17,6 +17,25 @@ const loginSchema = z.object({
 });
 
 export function registerAuthRoutes(app: Express): void {
+  // Ensure default admin account exists
+  (async () => {
+    try {
+      const existing = await authStorage.getUserByUsername("admin");
+      if (!existing) {
+        const hashedPassword = await bcrypt.hash("admin123", 10);
+        await authStorage.createUser({
+          username: "admin",
+          password: hashedPassword,
+          firstName: "System",
+          lastName: "Administrator",
+        } as any);
+        console.log("[Auth] Default admin user created: admin / admin123");
+      }
+    } catch (err) {
+      console.error("[Auth] Admin seed check failed:", err);
+    }
+  })();
+
   app.post("/api/auth/register", async (req, res) => {
     try {
       const { username, password, firstName, lastName } = registerSchema.parse(req.body);
@@ -53,18 +72,17 @@ export function registerAuthRoutes(app: Express): void {
 
       const user = await authStorage.getUserByUsername(username);
       if (!user) {
-        return res.status(401).json({ message: "Invalid username or password" });
+        return res.status(401).json({ message: "ACCESS DENIED: Unregistered email or username." });
       }
 
       const valid = await bcrypt.compare(password, user.password);
       if (!valid) {
-        return res.status(401).json({ message: "Invalid username or password" });
+        return res.status(401).json({ message: "ACCESS DENIED: Invalid passcode or username." });
       }
 
       (req.session as any).userId = user.id;
-
       const { password: _, ...safeUser } = user;
-      res.json(safeUser);
+      return res.json(safeUser);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: error.errors[0].message });
@@ -78,12 +96,16 @@ export function registerAuthRoutes(app: Express): void {
     try {
       const userId = (req.session as any).userId;
       const user = await authStorage.getUser(userId);
-      if (!user) return res.status(401).json({ message: "User not found" });
+
+      if (!user) {
+        return res.status(401).json({ message: "User not found" });
+      }
+
       const { password: _, ...safeUser } = user;
-      res.json(safeUser);
+      return res.json(safeUser);
     } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
+      console.error("Get user error:", error);
+      res.status(500).json({ message: "Failed to get user" });
     }
   });
 

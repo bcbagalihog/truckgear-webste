@@ -1,0 +1,39 @@
+[
+  {
+    "id": "admin-1",
+    "username": "admin",
+    "email": "admin@truckgearph.com",
+    "password": "$2b$10$elBUYsm/gjTzrSbCOMWbJ.OzQ/rEBZgRfapnJ.GoEAmHiVYSJs7bC",
+    "firstName": "System",
+    "lastName": "Administrator",
+    "role": "admin",
+    "companyId": 1,
+    "isActive": true,
+    "createdAt": "2026-08-19T16:55:03.338Z"
+  },
+  {
+    "id": "client-1",
+    "username": "client",
+    "email": "client@truckgearph.com",
+    "password": "$2b$10$xBZNrbJiAXxGzWLmQj57/.7fI/vw14VQlfkA5RWQ1ieHt6sHsyd9S",
+    "firstName": "ABC Hauling",
+    "lastName": "Corp",
+    "role": "client",
+    "companyId": 1,
+    "isActive": true,
+    "createdAt": "2026-08-19T16:55:03.497Z"
+  },
+  {
+    "id": "user-jetexpress",
+    "username": "jetexpress",
+    "email": "jetexpress@truckgearph.com",
+    "password": "$2b$10$/.r/tk9mdA/y8wUPjsK.N.ownZChfI95.oM7AM/ofskJV5gKShUbm",
+    "firstName": "Global",
+    "lastName": "Jet Express",
+    "role": "client",
+    "companyId": 100,
+    "companyName": "PH GLOBAL JET EXPRESS INC.",
+    "isActive": true,
+    "createdAt": "2026-08-19T16:55:03.652Z"
+  }
+]

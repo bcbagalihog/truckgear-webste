@@ -1,0 +1,57 @@
+[
+  {
+    "id": 101,
+    "sku": "JET-OIL-001",
+    "name": "Fleet Oil Filter Core (Isuzu Giga)",
+    "description": "Allocated for Isuzu Giga 10-Wheeler Dump Truck (ABC-1234)",
+    "quantity": 18,
+    "reorder_level": 5,
+    "location": "DEPOT-SHELF-A1",
+    "brand": "Isuzu Genuine",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": 102,
+    "sku": "JET-BRAKE-202",
+    "name": "Heavy Duty Brake Lining Set (Fuso Super Great)",
+    "description": "Allocated for Fuso Super Great Cargo Hauler (DEF-5678)",
+    "quantity": 8,
+    "reorder_level": 10,
+    "location": "DEPOT-SHELF-B3",
+    "brand": "Sanyoo Heavy",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": 103,
+    "sku": "JET-BELT-404",
+    "name": "Double Ribbed Fan Belt (Hino 700)",
+    "description": "Allocated for Hino 700 Mixer Truck (GHI-9012)",
+    "quantity": 3,
+    "reorder_level": 5,
+    "location": "DEPOT-SHELF-C2",
+    "brand": "Bando Heavy",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": 104,
+    "sku": "JET-FLUID-303",
+    "name": "Radiator Coolant Pre-Mix (Gallon)",
+    "description": "Depot maintenance fluid supply",
+    "quantity": 25,
+    "reorder_level": 10,
+    "location": "DEPOT-BAY-04",
+    "brand": "Jemax Coolant",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": 105,
+    "sku": "JET-AIR-105",
+    "name": "Heavy Duty Air Filter Element",
+    "description": "Fleet intake replacement filter",
+    "quantity": 12,
+    "reorder_level": 4,
+    "location": "DEPOT-SHELF-A3",
+    "brand": "Fleetguard",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  }
+]

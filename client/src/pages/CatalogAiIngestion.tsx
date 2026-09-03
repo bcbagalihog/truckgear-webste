@@ -145,28 +145,10 @@ export default function CatalogAiIngestion() {
             }));
             setSupplierParts(mapped);
           }
-        } else {
-          setSupplierParts([...editorParts]);
         }
       }
     } catch (err) {
       console.error("Failed to load catalog parts:", err);
-    } finally {
-      setIsLoadingEditor(false);
-    }
-  };
-            brand: p.brand || p.compatibleBrand || "TruckGear",
-            fitment: p.compatibility || p.compatibleModels || "Universal",
-            costPrice: parseFloat(p.costPrice || p.cost || p.netCost || 0),
-            sellingPrice: parseFloat(p.sellingPrice || p.price || 0) || (parseFloat(p.costPrice || 0) * 1.35),
-            stockQuantity: parseInt(p.stockQuantity || p.stock || 10),
-            imageUrl: p.imageUrl || p.croppedImagePath || "",
-          }));
-          setEditorParts(mapped);
-        }
-      }
-    } catch (err) {
-      console.error("Failed to load editor parts:", err);
     } finally {
       setIsLoadingEditor(false);
     }
@@ -989,80 +971,81 @@ export default function CatalogAiIngestion() {
                   />
                 </div>
 
-              <div className="space-y-1">
-                <Label className="text-slate-400 uppercase font-mono">Category</Label>
-                <Input
-                  value={editingItem.category}
-                  onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
-                  className="bg-slate-900 border-slate-800 font-bold text-white"
-                />
-              </div>
+                <div className="space-y-1">
+                  <Label className="text-slate-400 uppercase font-mono">Category</Label>
+                  <Input
+                    value={editingItem.category}
+                    onChange={(e) => setEditingItem({ ...editingItem, category: e.target.value })}
+                    className="bg-slate-900 border-slate-800 font-bold text-white"
+                  />
+                </div>
 
-              <div className="col-span-2 space-y-1">
-                <Label className="text-slate-400 uppercase font-mono">Part Description / Name</Label>
-                <Input
-                  value={editingItem.name}
-                  onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-                  className="bg-slate-900 border-slate-800 font-bold text-white"
-                />
-              </div>
+                <div className="col-span-2 space-y-1">
+                  <Label className="text-slate-400 uppercase font-mono">Part Description / Name</Label>
+                  <Input
+                    value={editingItem.name}
+                    onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+                    className="bg-slate-900 border-slate-800 font-bold text-white"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <Label className="text-slate-400 uppercase font-mono">Fitment Models</Label>
-                <Input
-                  value={editingItem.fitment}
-                  onChange={(e) => setEditingItem({ ...editingItem, fitment: e.target.value })}
-                  className="bg-slate-900 border-slate-800 font-bold text-sky-400"
-                />
-              </div>
+                <div className="space-y-1">
+                  <Label className="text-slate-400 uppercase font-mono">Fitment Models</Label>
+                  <Input
+                    value={editingItem.fitment}
+                    onChange={(e) => setEditingItem({ ...editingItem, fitment: e.target.value })}
+                    className="bg-slate-900 border-slate-800 font-bold text-sky-400"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <Label className="text-slate-400 uppercase font-mono">Stock Quantity</Label>
-                <Input
-                  type="number"
-                  value={editingItem.stockQuantity}
-                  onChange={(e) => setEditingItem({ ...editingItem, stockQuantity: parseInt(e.target.value) || 0 })}
-                  className="bg-slate-900 border-slate-800 font-bold text-white"
-                />
-              </div>
+                <div className="space-y-1">
+                  <Label className="text-slate-400 uppercase font-mono">Stock Quantity</Label>
+                  <Input
+                    type="number"
+                    value={editingItem.stockQuantity}
+                    onChange={(e) => setEditingItem({ ...editingItem, stockQuantity: parseInt(e.target.value) || 0 })}
+                    className="bg-slate-900 border-slate-800 font-bold text-white"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <Label className="text-emerald-400 uppercase font-mono">Cost Price (₱)</Label>
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={editingItem.costPrice}
-                  onChange={(e) => {
-                    const cost = parseFloat(e.target.value) || 0;
-                    setEditingItem({
-                      ...editingItem,
-                      costPrice: cost,
-                      sellingPrice: parseFloat((cost * 1.35).toFixed(2)),
-                    });
-                  }}
-                  className="bg-slate-900 border-slate-800 font-mono font-bold text-emerald-400"
-                />
-              </div>
+                <div className="space-y-1">
+                  <Label className="text-emerald-400 uppercase font-mono">Cost Price (₱)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={editingItem.costPrice}
+                    onChange={(e) => {
+                      const cost = parseFloat(e.target.value) || 0;
+                      setEditingItem({
+                        ...editingItem,
+                        costPrice: cost,
+                        sellingPrice: parseFloat((cost * 1.35).toFixed(2)),
+                      });
+                    }}
+                    className="bg-slate-900 border-slate-800 font-mono font-bold text-emerald-400"
+                  />
+                </div>
 
-              <div className="space-y-1">
-                <Label className="text-amber-400 uppercase font-mono">Retail Selling Price (₱)</Label>
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={editingItem.sellingPrice}
-                  onChange={(e) => setEditingItem({ ...editingItem, sellingPrice: parseFloat(e.target.value) || 0 })}
-                  className="bg-slate-900 border-slate-800 font-mono font-bold text-amber-500"
-                />
-              </div>
+                <div className="space-y-1">
+                  <Label className="text-amber-400 uppercase font-mono">Retail Selling Price (₱)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={editingItem.sellingPrice}
+                    onChange={(e) => setEditingItem({ ...editingItem, sellingPrice: parseFloat(e.target.value) || 0 })}
+                    className="bg-slate-900 border-slate-800 font-mono font-bold text-amber-500"
+                  />
+                </div>
 
-              <div className="col-span-2 space-y-1">
-                <Label className="text-slate-400 uppercase font-mono">Image URL / Path</Label>
-                <Input
-                  value={editingItem.imageUrl}
-                  onChange={(e) => setEditingItem({ ...editingItem, imageUrl: e.target.value })}
-                  placeholder="/uploads/product.jpg"
-                  className="bg-slate-900 border-slate-800 font-mono text-xs"
-                />
+                <div className="col-span-2 space-y-1">
+                  <Label className="text-slate-400 uppercase font-mono">Image URL / Path</Label>
+                  <Input
+                    value={editingItem.imageUrl}
+                    onChange={(e) => setEditingItem({ ...editingItem, imageUrl: e.target.value })}
+                    placeholder="/uploads/product.jpg"
+                    className="bg-slate-900 border-slate-800 font-mono text-xs"
+                  />
+                </div>
               </div>
             </div>
           )}

@@ -13,6 +13,9 @@ import {
   ChevronRight,
   ShieldCheck,
   LayoutGrid, // New icon for the POS Terminal
+  MessageSquare,
+  BookOpen,
+  CreditCard,
 } from "lucide-react";
 import { SiShopify } from "react-icons/si";
 import { useAuth } from "@/hooks/use-auth";
@@ -26,43 +29,19 @@ export function Sidebar() {
   // Check if the current user is an admin or Ben
   const isAdmin = user?.role === "admin" || user?.username === "TTPS";
 
-  // Grouped Menu Structure - REPLACED Sales & VAT with POS
+  // Streamlined Staff & Admin Menu Structure
   const menuGroups = [
     {
-      group: "Operations",
+      group: "Finance & Verification",
       items: [
-        { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-        { icon: Package, label: "Inventory", href: "/products" },
-        { icon: Truck, label: "Purchases", href: "/purchases" },
-      ],
-    },
-    {
-      group: "Sales & Revenue",
-      items: [
-        { icon: LayoutGrid, label: "Point of Sale (POS)", href: "/pos" },
-        { icon: SiShopify, label: "Shopify Sync", href: "/shopify" },
-      ],
-    },
-    {
-      group: "Finance & Accounting",
-      restricted: true,
-      items: [
-        { icon: Calculator, label: "Accounting", href: "/accounting" },
-        { icon: BarChart3, label: "Business Reports", href: "/reports" },
-      ],
-    },
-    {
-      group: "Directory",
-      items: [
-        { icon: Users, label: "Customers", href: "/customers" },
-        { icon: Store, label: "Vendors", href: "/vendors" },
+        { icon: CreditCard, label: "Client Payments Verification", href: "/admin/payments" },
+        { icon: Truck, label: "Logistics & DR Manager", href: "/admin/logistics" },
       ],
     },
     {
       group: "Administration",
-      restricted: true,
       items: [
-        { icon: ShieldCheck, label: "User Management", href: "/admin/users" },
+        { icon: Users, label: "Client Accounts Manager", href: "/admin/users" },
       ],
     },
   ];
@@ -83,7 +62,7 @@ export function Sidebar() {
     : "User";
 
   return (
-    <div className="print:hidden h-screen w-64 bg-card border-r border-border flex flex-col fixed left-0 top-0 z-50">
+    <div className="print:hidden h-screen w-64 bg-slate-950 border-r border-slate-800 flex flex-col fixed left-0 top-0 z-50 text-slate-100 selection:bg-amber-500 selection:text-slate-950">
       <div className="p-6">
         <a
           href="/"
@@ -92,22 +71,24 @@ export function Sidebar() {
           <img
             src={logoImg}
             alt="TruckGear Logo"
-            className="h-8 w-8 rounded-md object-cover transition-transform group-hover:scale-110"
+            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
           />
-          <h1 className="font-display font-bold tracking-tight text-primary leading-tight">
-            <span className="text-xl">Truckgear</span><br/>
-            <span className="text-xs font-semibold text-yellow-500 tracking-wide">Truck Parts Store</span>
-          </h1>
+          <div>
+            <h1 className="font-extrabold text-sm tracking-widest uppercase text-white font-mono leading-none">
+              TRUCKGEAR
+            </h1>
+            <p className="text-[10px] text-yellow-400 font-mono tracking-wider uppercase mt-1 font-bold">
+              PARTSMAN OS
+            </p>
+          </div>
         </a>
       </div>
 
-      <nav className="flex-1 px-4 overflow-y-auto space-y-6 pb-6">
+      <nav className="flex-1 px-4 space-y-6 overflow-y-auto">
         {menuGroups.map((group) => {
-          if (group.restricted && !isAdmin) return null;
-
           return (
             <div key={group.group}>
-              <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60 mb-2">
+              <p className="px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 font-mono">
                 {group.group}
               </p>
               <div className="space-y-1">
@@ -117,21 +98,21 @@ export function Sidebar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-all duration-200 group ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-mono transition-all duration-200 group ${
                         isActive
-                          ? "bg-primary text-primary-foreground font-medium shadow-sm"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                          ? "bg-yellow-400 text-slate-950 font-black shadow-lg shadow-yellow-400/25"
+                          : "text-slate-400 hover:bg-slate-900 hover:text-yellow-400"
                       }`}
                     >
                       <item.icon
                         className={`h-4 w-4 ${
                           isActive
-                            ? "text-primary-foreground"
-                            : "text-muted-foreground group-hover:text-foreground"
+                            ? "text-slate-950 font-bold"
+                            : "text-slate-400 group-hover:text-yellow-400"
                         }`}
                       />
                       <span className="flex-1">{item.label}</span>
-                      {isActive && <ChevronRight className="h-3 w-3" />}
+                      {isActive && <ChevronRight className="h-3.5 w-3.5 text-slate-950" />}
                     </Link>
                   );
                 })}

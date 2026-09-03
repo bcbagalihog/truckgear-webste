@@ -1,0 +1,74 @@
+[
+  {
+    "id": "UNIT-101",
+    "model": "Isuzu Giga 10-Wheeler Dump Truck",
+    "name": "Isuzu Giga 10-Wheeler Dump Truck",
+    "plate": "ABC-1234",
+    "driver": "Rodrigo Santos",
+    "route": "Manila - Batangas Port",
+    "status": "In Service",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "allocatedParts": [
+      {
+        "partNumber": "C2",
+        "name": "CLUTCH DISK",
+        "installedAt": "2026-08-29",
+        "notes": "Installed via Purchase Order PO-00001 / Maintenance REQ-2530."
+      },
+      {
+        "partNumber": "H4",
+        "name": "AUTO BULB",
+        "installedAt": "2026-08-28",
+        "notes": "Installed via Maintenance Request REQ-8544."
+      },
+      {
+        "partNumber": "TG-OIL-001",
+        "name": "Premium Oil Filter (Heavy Duty)",
+        "installedAt": "2026-05-10",
+        "notes": "Scheduled PM1 service change."
+      },
+      {
+        "partNumber": "TG-BRAKE-202",
+        "name": "Full Performance Brake Pads",
+        "installedAt": "2026-04-15",
+        "notes": "Front axle pads replaced."
+      }
+    ]
+  },
+  {
+    "id": "UNIT-102",
+    "model": "Fuso Super Great Cargo Truck",
+    "name": "Fuso Super Great Cargo Truck",
+    "plate": "DEF-5678",
+    "driver": "Juan Dela Cruz",
+    "route": "Bulacan Depot",
+    "status": "Under Repair",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "allocatedParts": [
+      {
+        "partNumber": "TG-CLUTCH-99",
+        "name": "Clutch Assembly Kit v2",
+        "installedAt": "2026-05-16",
+        "notes": "Transmission slip fix."
+      }
+    ]
+  },
+  {
+    "id": "UNIT-103",
+    "model": "Hino 700 Concrete Mixer Truck",
+    "name": "Hino 700 Concrete Mixer Truck",
+    "plate": "GHI-9012",
+    "driver": "Danilo Ramos",
+    "route": "Cavite Construction Hub",
+    "status": "Dispatched",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "allocatedParts": [
+      {
+        "partNumber": "TG-OIL-001",
+        "name": "Premium Oil Filter (Heavy Duty)",
+        "installedAt": "2026-04-20",
+        "notes": "Filter swapped."
+      }
+    ]
+  }
+]

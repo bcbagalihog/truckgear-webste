@@ -1,0 +1,72 @@
+[
+  {
+    "id": "EXP-2026-901",
+    "date": "2026-08-21",
+    "invoiceId": "INV-5808",
+    "drId": "DR-2026-8801",
+    "truckPlate": "ABC-1234",
+    "truckModel": "Isuzu Giga 10-Wheeler Dump Truck",
+    "category": "Engine & Oil Filtration",
+    "description": "Fleet Oil Filter Core (10 units) & Radiator Coolant Pre-Mix (5 gallons)",
+    "qty": 15,
+    "amount": 187297.50,
+    "status": "UNPAID / OPEN",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": "EXP-2026-895",
+    "date": "2026-08-20",
+    "invoiceId": "INV-5805",
+    "drId": "DR-2026-8794",
+    "truckPlate": "DEF-5678",
+    "truckModel": "Fuso Super Great Cargo Hauler",
+    "category": "Braking Systems",
+    "description": "Full Performance Rear Brake Pad Sets (4 units) & Alternator Belts (2 units)",
+    "qty": 6,
+    "amount": 20500.00,
+    "status": "UNPAID / OPEN",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": "EXP-2026-882",
+    "date": "2026-08-19",
+    "invoiceId": "INV-5804",
+    "drId": "DR-2026-8780",
+    "truckPlate": "GHI-9012",
+    "truckModel": "Hino 700 Concrete Mixer Truck",
+    "category": "Clutch & Transmission",
+    "description": "Clutch Assembly Kit v2 Heavy Duty (2 units)",
+    "qty": 2,
+    "amount": 29000.00,
+    "status": "UNPAID / OPEN",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": "EXP-2026-810",
+    "date": "2026-07-15",
+    "invoiceId": "INV-5688",
+    "drId": "DR-2026-7910",
+    "truckPlate": "ABC-1234",
+    "truckModel": "Isuzu Giga 10-Wheeler Dump Truck",
+    "category": "Suspension & Cabin Shocks",
+    "description": "Monroe Heavy Duty Cabin Air Suspension Shocks Replacement",
+    "qty": 4,
+    "amount": 42000.00,
+    "status": "PAID / VERIFIED",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  },
+  {
+    "id": "EXP-2026-745",
+    "date": "2026-06-10",
+    "invoiceId": "INV-5510",
+    "drId": "DR-2026-7204",
+    "truckPlate": "DEF-5678",
+    "truckModel": "Fuso Super Great Cargo Hauler",
+    "category": "Engine & Oil Filtration",
+    "description": "Full Service PM-1 Kit: Oil Filters, Fuel Filters, Air Cleaner Cores",
+    "qty": 12,
+    "amount": 38400.00,
+    "status": "PAID / VERIFIED",
+    "company": "PH GLOBAL JET EXPRESS INC."
+  }
+]

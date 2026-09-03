@@ -114,6 +114,28 @@ export interface IStorage extends IAuthStorage {
   deleteCompany(id: number): Promise<void>;
 }
 
+import fs from "fs";
+import path from "path";
+
+function getProductsVaultFallback(search?: string): any[] {
+  try {
+    const vaultPath = path.join(process.cwd(), "data", "products.json");
+    if (!fs.existsSync(vaultPath)) return [];
+    const content = fs.readFileSync(vaultPath, "utf-8");
+    const parsed = JSON.parse(content);
+    if (!search || !search.trim()) return parsed;
+    const term = search.toLowerCase().trim();
+    return parsed.filter((p: any) =>
+      (p.name && p.name.toLowerCase().includes(term)) ||
+      (p.sku && p.sku.toLowerCase().includes(term)) ||
+      (p.brand && p.brand.toLowerCase().includes(term))
+    );
+  } catch (err) {
+    console.error("[STORAGE] Failed to read products.json vault fallback:", err);
+    return [];
+  }
+}
+
 export class DatabaseStorage implements IStorage {
   getUser = authStorage.getUser.bind(authStorage);
   getUserByUsername = authStorage.getUserByUsername.bind(authStorage);
@@ -121,14 +143,19 @@ export class DatabaseStorage implements IStorage {
 
   // --- PRODUCTS ---
   async getProducts(search?: string): Promise<ProductWithDetails[]> {
-    const filters = search
-      ? or(ilike(products.name, `%${search}%`), ilike(products.sku, `%${search}%`))
-      : undefined;
-    return (await db.query.products.findMany({
-      where: filters,
-      with: { oemNumbers: true, compatibility: true },
-      orderBy: [desc(products.id)],
-    })) as ProductWithDetails[];
+    try {
+      const filters = search
+        ? or(ilike(products.name, `%${search}%`), ilike(products.sku, `%${search}%`))
+        : undefined;
+      return (await db.query.products.findMany({
+        where: filters,
+        with: { oemNumbers: true, compatibility: true },
+        orderBy: [desc(products.id)],
+      })) as ProductWithDetails[];
+    } catch (err) {
+      console.warn("[STORAGE] Postgres db connection unavailable, reading data/products.json vault fallback:", err);
+      return getProductsVaultFallback(search);
+    }
   }
 
   async getProduct(id: number): Promise<ProductWithDetails | undefined> {
@@ -769,41 +796,68 @@ export class DatabaseStorage implements IStorage {
 
   // --- ADMIN USERS ---
   async getAllUsers(): Promise<any[]> {
-    const allUsers = await db.select({
-      id: users.id,
-      username: users.username,
-      firstName: users.firstName,
-      lastName: users.lastName,
-      email: users.email,
-      role: users.role,
-      companyId: users.companyId,
-      isActive: users.isActive,
-      createdAt: users.createdAt,
-    }).from(users);
-    return allUsers;
+    try {
+      const dbUsers = await db.select({
+        id: users.id,
+        username: users.username,
+        firstName: users.firstName,
+        lastName: users.lastName,
+        email: users.email,
+        role: users.role,
+        companyId: users.companyId,
+        isActive: users.isActive,
+        createdAt: users.createdAt,
+      }).from(users);
+
+      const { getVaultUsers } = await import("./replit_integrations/auth/storage");
+      const vaultUsers = getVaultUsers().map(({ password, ...rest }) => rest);
+
+      const map = new Map<string, any>();
+      for (const u of dbUsers) map.set(String(u.id), u);
+      for (const u of vaultUsers) {
+        if (!map.has(String(u.id))) map.set(String(u.id), u);
+      }
+      return Array.from(map.values());
+    } catch (_) {
+      const { getVaultUsers } = await import("./replit_integrations/auth/storage");
+      return getVaultUsers().map(({ password, ...rest }) => rest);
+    }
   }
 
   async createAdminUser(data: any): Promise<any> {
     const bcrypt = await import("bcryptjs");
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const [user] = await db.insert(users).values({
+    const { getVaultUsers, saveVaultUsers } = await import("./replit_integrations/auth/storage");
+
+    const vaultUsers = getVaultUsers();
+    const newId = `user-${Date.now()}`;
+    const newUser = {
+      id: newId,
       username: data.username,
       password: hashedPassword,
       firstName: data.firstName || null,
       lastName: data.lastName || null,
       role: data.role || "staff",
       companyId: data.companyId || 1,
-    }).returning({
-      id: users.id,
-      username: users.username,
-      firstName: users.firstName,
-      lastName: users.lastName,
-      role: users.role,
-      companyId: users.companyId,
-      isActive: users.isActive,
-      createdAt: users.createdAt,
-    });
-    return user;
+      isActive: true,
+      createdAt: new Date().toISOString(),
+    };
+    vaultUsers.push(newUser);
+    saveVaultUsers(vaultUsers);
+
+    try {
+      await db.insert(users).values({
+        username: data.username,
+        password: hashedPassword,
+        firstName: data.firstName || null,
+        lastName: data.lastName || null,
+        role: data.role || "staff",
+        companyId: data.companyId || 1,
+      });
+    } catch (e) {}
+
+    const { password, ...safe } = newUser;
+    return safe;
   }
 
   async toggleUserStatus(id: string, isActive: boolean): Promise<any> {
@@ -819,20 +873,46 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateUser(id: string, data: any): Promise<any> {
+    const { getVaultUsers, saveVaultUsers } = await import("./replit_integrations/auth/storage");
+    const bcrypt = await import("bcryptjs");
+
+    const vaultUsers = getVaultUsers();
+    const idx = vaultUsers.findIndex((u) => String(u.id) === String(id));
+    if (idx !== -1) {
+      if (data.username !== undefined) vaultUsers[idx].username = data.username;
+      if (data.firstName !== undefined) vaultUsers[idx].firstName = data.firstName;
+      if (data.lastName !== undefined) vaultUsers[idx].lastName = data.lastName;
+      if (data.role !== undefined) vaultUsers[idx].role = data.role;
+      if (data.companyId !== undefined) vaultUsers[idx].companyId = Number(data.companyId);
+      if (data.password && data.password.trim()) {
+        vaultUsers[idx].password = bcrypt.hashSync(data.password.trim(), 10);
+      }
+      saveVaultUsers(vaultUsers);
+    }
+
     const updates: any = {};
+    if (data.username !== undefined) updates.username = data.username;
     if (data.firstName !== undefined) updates.firstName = data.firstName;
     if (data.lastName !== undefined) updates.lastName = data.lastName;
     if (data.role !== undefined) updates.role = data.role;
     if (data.companyId !== undefined) updates.companyId = Number(data.companyId);
-    if (data.password) {
-      const bcrypt = await import("bcrypt");
-      updates.password = await bcrypt.hash(data.password, 10);
+    if (data.password && data.password.trim()) {
+      updates.password = bcrypt.hashSync(data.password.trim(), 10);
     }
-    const [user] = await db.update(users).set(updates).where(eq(users.id, id)).returning({
-      id: users.id, username: users.username, firstName: users.firstName,
-      lastName: users.lastName, role: users.role, companyId: users.companyId, isActive: users.isActive,
-    });
-    return user;
+
+    try {
+      const [user] = await db.update(users).set(updates).where(eq(users.id, id)).returning({
+        id: users.id, username: users.username, firstName: users.firstName,
+        lastName: users.lastName, role: users.role, companyId: users.companyId, isActive: users.isActive,
+      });
+      if (user) return user;
+    } catch (e) {}
+
+    if (idx !== -1) {
+      const { password, ...safe } = vaultUsers[idx];
+      return safe;
+    }
+    return { id, ...updates };
   }
 
   async deleteUser(id: string): Promise<void> {

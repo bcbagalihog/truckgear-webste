@@ -1,19 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 async function fetchUser(): Promise<any | null> {
-  const response = await fetch("/api/auth/user", {
-    credentials: "include",
-  });
+  try {
+    const response = await fetch("/api/auth/user", {
+      credentials: "include",
+    });
 
-  if (response.status === 401) {
+    if (response.status === 401 || !response.ok) {
+      return null;
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error("[Auth] fetchUser failed, defaulting to null:", err);
     return null;
   }
-
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${response.statusText}`);
-  }
-
-  return response.json();
 }
 
 export function useAuth() {
@@ -34,7 +35,7 @@ export function useAuth() {
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/auth/user"], null);
-      window.location.href = "/login";
+      window.location.href = "/portal/login";
     },
   });
 

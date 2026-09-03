@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "invoice_number": "INV-2026-0842",
+    "customer_name": "Heavy Haul Transport Inc.",
+    "payment_method": "GCash Transfer",
+    "reference_number": "5009823189",
+    "amount": 48500.00,
+    "status": "PENDING_VALIDATION",
+    "payment_date": "2026-08-19T10:29:00.000Z",
+    "proof_image_url": "/uploads/payment_proofs/sample_gcash_5009823189.png",
+    "receipt_image_url": null,
+    "po_document_url": null
+  },
+  {
+    "id": 2,
+    "invoice_number": "INV-2026-0791",
+    "customer_name": "Metro Fleet Logistics",
+    "payment_method": "Bank Transfer (BDO)",
+    "reference_number": "BDO-99410283",
+    "amount": 124300.00,
+    "status": "APPROVED",
+    "payment_date": "2026-08-18T14:15:00.000Z",
+    "proof_image_url": "/uploads/payment_proofs/sample_gcash_5009823189.png",
+    "receipt_image_url": "/uploads/payment_proofs/sample_gcash_5009823189.png",
+    "po_document_url": "/uploads/payment_proofs/sample_gcash_5009823189.png"
+  }
+]

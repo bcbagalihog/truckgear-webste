@@ -1,0 +1,49 @@
+[
+  {
+    "id": "DR-2026-8801",
+    "invoiceId": "INV-5808",
+    "dispatchDate": "2026-08-21",
+    "destinationDepot": "Paranaque Central Distribution Depot",
+    "truckPlate": "ABC-1234",
+    "driver": "Rodrigo Santos",
+    "status": "In Transit",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "podImage": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&auto=format&fit=crop&q=80",
+    "items": [
+      { "sku": "JET-OIL-001", "name": "Fleet Oil Filter Core (Isuzu Giga)", "qty": 10 },
+      { "sku": "JET-FLUID-303", "name": "Radiator Coolant Pre-Mix (Gallon)", "qty": 5 }
+    ],
+    "notes": "Urgent depot stock replenishment dispatch. Driver on route via SLEX."
+  },
+  {
+    "id": "DR-2026-8794",
+    "invoiceId": "INV-5805",
+    "dispatchDate": "2026-08-20",
+    "destinationDepot": "Bulacan Logistics Hub",
+    "truckPlate": "DEF-5678",
+    "driver": "Juan Dela Cruz",
+    "status": "Delivered",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "podImage": "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=800&auto=format&fit=crop&q=80",
+    "items": [
+      { "sku": "JET-BRAKE-202", "name": "Full Performance Brake Pads", "qty": 4 },
+      { "sku": "JET-BELT-404", "name": "Premium Alternator Fan Belt", "qty": 2 }
+    ],
+    "notes": "Delivered & signed by Warehouse Receiving Supervisor Engr. Santos."
+  },
+  {
+    "id": "DR-2026-8780",
+    "invoiceId": "INV-5804",
+    "dispatchDate": "2026-08-19",
+    "destinationDepot": "Batangas Port Fleet Terminal",
+    "truckPlate": "GHI-9012",
+    "driver": "Danilo Ramos",
+    "status": "Dispatched",
+    "company": "PH GLOBAL JET EXPRESS INC.",
+    "podImage": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&auto=format&fit=crop&q=80",
+    "items": [
+      { "sku": "TG-CLUTCH-99", "name": "Clutch Assembly Kit v2", "qty": 2 }
+    ],
+    "notes": "Dispatched from TruckGear Central Warehouse, ETA 4:00 PM."
+  }
+]
