@@ -1,0 +1,9 @@
+{
+  "name": "payments-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd .. && npm run build && mkdir -p out dist/public .next && cp -r ../dist/public/* out/ 2>/dev/null || true && cp -r ../dist/public/* dist/public/ 2>/dev/null || true",
+    "pages:build": "cd .. && npm run build && mkdir -p out dist/public .next && cp -r ../dist/public/* out/ 2>/dev/null || true && cp -r ../dist/public/* dist/public/ 2>/dev/null || true"
+  }
+}
