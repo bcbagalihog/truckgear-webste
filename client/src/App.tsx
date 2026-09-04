@@ -6,21 +6,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 
-// REPLACED: VATInvoice and Sales are consolidated into POS
 import POS from "./pages/POS";
-import Dashboard from "@/pages/Dashboard";
 import Inventory from "@/pages/Inventory";
 import Purchases from "@/pages/Purchases";
 import Customers from "@/pages/Customers";
 import Vendors from "@/pages/Vendors";
 import Reports from "@/pages/Reports";
-import ShopifyPage from "@/pages/Shopify";
 import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 import Accounting from "@/pages/accounting";
 import UserManagement from "@/pages/UserManagement";
-import WebClientRequests from "@/pages/WebClientRequests";
-import CatalogAiIngestion from "@/pages/CatalogAiIngestion";
 import PendingPaymentsList from "@/pages/PendingPaymentsList";
 import PaymentCenterPage from "@/pages/PaymentCenterPage";
 import PortalHubPage from "@/pages/PortalHubPage";
@@ -34,6 +29,9 @@ import RfqComparisonView from "@/pages/operations/RfqComparisonView";
 import ProcurementView from "@/pages/operations/ProcurementView";
 import LogisticsModuleView from "@/pages/LogisticsModuleView";
 import ClientExpenditureLedgerView from "@/pages/ClientExpenditureLedgerView";
+import PublicCompanyWebsite from "@/pages/PublicCompanyWebsite";
+import PartsmanLandingPage from "@/pages/PartsmanLandingPage";
+import PublicCatalogPage from "@/pages/PublicCatalogPage";
 
 function ProtectedRoute({
   component: Component,
@@ -60,13 +58,22 @@ function ProtectedRoute({
 function Router() {
   return (
     <Switch>
+      {/* ─── PUBLIC WEBSITE & LANDING PAGES ─── */}
+      <Route path="/" component={PublicCompanyWebsite} />
+      <Route path="/partsman" component={PartsmanLandingPage} />
+      <Route path="/catalog" component={PublicCatalogPage} />
+
+      {/* ─── AUTHENTICATION GATEWAY ─── */}
       <Route path="/login" component={Login} />
       <Route path="/portal/login" component={Login} />
-      <Route path="/portal" component={PortalHubPage} />
-      <Route path="/porta" component={PortalHubPage} />
-      <Route path="/payment" component={PaymentCenterPage} />
 
-      {/* PARTSMAN PARTS OPERATIONS CLIENT SUITE */}
+      {/* ─── CLIENT PORTAL SUITE ─── */}
+      <Route path="/portal" component={PortalHubPage} />
+      <Route path="/payment" component={PaymentCenterPage} />
+      <Route path="/logistics" component={LogisticsModuleView} />
+      <Route path="/expenditure" component={ClientExpenditureLedgerView} />
+
+      {/* ─── CLIENT PARTS OPERATIONS SUITE ─── */}
       <Route path="/inventory" component={OperationsDashboardView} />
       <Route path="/inventory/parts" component={WarehouseInventoryView} />
       <Route path="/inventory/fleet" component={FleetOperationsView} />
@@ -75,82 +82,50 @@ function Router() {
       <Route path="/inventory/reliability" component={ReliabilityAnalyticsView} />
       <Route path="/inventory/directory" component={DirectoryView} />
       <Route path="/inventory/procurement" component={ProcurementView} />
-      <Route path="/products">
-        <Redirect to="/inventory" />
-      </Route>
 
-      <Route path="/">
+      {/* ─── STAFF ADMIN SUITE ─── */}
+      <Route path="/admin/payments">
         <ProtectedRoute component={PendingPaymentsList} />
       </Route>
-
-      {/* CONSOLIDATED ROUTE: Replacing /sales and /vat-invoice with /pos */}
+      <Route path="/admin/logistics">
+        <ProtectedRoute component={LogisticsModuleView} />
+      </Route>
+      <Route path="/admin/users">
+        <ProtectedRoute component={UserManagement} />
+      </Route>
+      <Route path="/admin/inventory">
+        <ProtectedRoute component={Inventory} />
+      </Route>
       <Route path="/pos">
         <ProtectedRoute component={POS} />
       </Route>
 
-      <Route path="/products">
-        <ProtectedRoute component={Inventory} />
-      </Route>
-
-      <Route path="/catalog-ai">
-        <ProtectedRoute component={CatalogAiIngestion} />
-      </Route>
-
+      {/* ─── INTERNAL LEDGERS & DIRECTORIES ─── */}
       <Route path="/purchases">
         <ProtectedRoute component={Purchases} />
       </Route>
-
-
       <Route path="/customers">
         <ProtectedRoute component={Customers} />
       </Route>
-
       <Route path="/vendors">
         <ProtectedRoute component={Vendors} />
       </Route>
-
       <Route path="/accounting">
         <ProtectedRoute component={Accounting} />
       </Route>
-
       <Route path="/reports">
         <ProtectedRoute component={Reports} />
       </Route>
 
-      <Route path="/shopify">
-        <ProtectedRoute component={ShopifyPage} />
-      </Route>
-
-      <Route path="/admin/users">
-        <ProtectedRoute component={UserManagement} />
-      </Route>
-
-      <Route path="/admin/payments">
-        <ProtectedRoute component={PendingPaymentsList} />
-      </Route>
-
-      <Route path="/admin/logistics">
-        <ProtectedRoute component={LogisticsModuleView} />
-      </Route>
-
-      <Route path="/quotes/web-requests">
-        <ProtectedRoute component={WebClientRequests} />
-      </Route>
-
-      <Route path="/logistics">
-        <ProtectedRoute component={LogisticsModuleView} />
-      </Route>
-
-      <Route path="/expenditure">
-        <ProtectedRoute component={ClientExpenditureLedgerView} />
-      </Route>
-
-      {/* Legacy Fallbacks: Redirect old paths to new POS to prevent 404s */}
+      {/* ─── LEGACY FALLBACK REDIRECTS ─── */}
       <Route path="/sales">
         <Redirect to="/pos" />
       </Route>
       <Route path="/vat-invoice">
         <Redirect to="/pos" />
+      </Route>
+      <Route path="/products">
+        <Redirect to="/catalog" />
       </Route>
 
       <Route component={NotFound} />

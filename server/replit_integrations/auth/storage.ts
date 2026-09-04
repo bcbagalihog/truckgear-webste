@@ -7,13 +7,14 @@ import bcrypt from "bcryptjs";
 
 function getUsersVaultPath(): string {
   const possibleDirs = [
+    path.resolve(process.cwd(), "./data"),
     "/run/user/1000/gvfs/sftp:host=192.168.254.121,user=bab/home/bab/Documents/truckgear-os/data",
     "/home/bab/Documents/truckgear-os/data",
-    path.resolve(process.cwd(), "./data"),
   ];
   for (const d of possibleDirs) {
-    if (fs.existsSync(d)) {
-      return path.join(d, "users_vault.json");
+    const fullPath = path.join(d, "users_vault.json");
+    if (fs.existsSync(fullPath)) {
+      return fullPath;
     }
   }
   return path.resolve(process.cwd(), "./data/users_vault.json");
