@@ -145,7 +145,7 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
             </h3>
 
             <div className="bg-slate-950 border border-slate-800 p-3 rounded-xl flex justify-between items-baseline font-mono text-xs">
-              <span className="text-[9px] text-slate-400 uppercase font-bold">RETAIL STORE PRICE:</span>
+              <span className="text-[9px] text-slate-400 uppercase font-bold">ONLINE RETAIL PRICE:</span>
               <span className="text-lg font-black text-[#FACC15] font-mono">
                 {p.sellingPrice > 0 ? `₱${p.sellingPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'INQUIRE COST'}
               </span>
@@ -273,11 +273,11 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
                 </div>
 
                 <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1">
-                  <span className="text-[10px] text-slate-400 font-mono uppercase font-bold block">WHOLESALE RETAIL STORE PRICE:</span>
+                  <span className="text-[10px] text-slate-400 font-mono uppercase font-bold block">ONLINE RETAIL PRICE:</span>
                   <div className="text-2xl md:text-3xl font-black text-[#FACC15] font-mono">
                     {p.sellingPrice > 0 ? `₱${p.sellingPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'INQUIRE COST'}
                   </div>
-                  <span className="text-[9px] text-slate-500 font-mono block">Includes standard branch fulfillment & tax compliance</span>
+                  <span className="text-[9px] text-[#FACC15] font-mono block font-bold">Official Retail Online Store — Fast Direct Delivery & Branch Pickup Available</span>
                 </div>
 
                 <div className="space-y-2 pt-2">

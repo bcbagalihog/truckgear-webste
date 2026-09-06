@@ -12,10 +12,8 @@
     "stockQuantityBonifacio": 10,
     "stockQuantityBatangas": 0,
     "stock": 10,
-    "imageUrl": "/hero-parts.png",
-    "images": [
-      "/hero-parts.png"
-    ]
+    "imageUrl": "",
+    "images": []
   },
   {
     "id": 4576,
