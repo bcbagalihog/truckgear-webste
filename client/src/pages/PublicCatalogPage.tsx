@@ -33,7 +33,7 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
 
   const handleViberClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const message = `Hello TruckGear! I would like to inquire about part: ${p.sku} - ${p.name} (₱${p.sellingPrice.toFixed(2)})`;
+    const message = `Hello TruckGear! I would like to inquire about: ${p.name} (₱${p.sellingPrice.toFixed(2)})`;
     const viberUrl = `viber://chat?number=%2B639285066385&text=${encodeURIComponent(message)}`;
     window.open(viberUrl, '_blank');
   };
@@ -98,10 +98,6 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
               <ZoomIn className="w-4 h-4 text-[#FACC15] animate-bounce" />
               <span className="text-[#FACC15]">CLICK TO POP OUT</span>
             </div>
-
-            <span className="absolute top-2 right-2 px-2 py-0.5 bg-slate-950/90 text-[#FACC15] font-mono font-bold text-[10px] rounded border border-slate-800 z-10">
-              {p.sku}
-            </span>
 
             {validImgs.length > 0 && (
               <span className="absolute top-2 left-2 px-2 py-0.5 bg-emerald-500/90 text-slate-950 font-mono font-black text-[9px] rounded border border-emerald-400 uppercase z-10">
@@ -251,9 +247,6 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
             <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 bg-[#FACC15]/10 text-[#FACC15] font-mono font-black text-xs rounded-lg border border-[#FACC15]/30">
-                    PART SKU: {p.sku}
-                  </span>
                   <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-lg ${p.stock > 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800 text-slate-400'}`}>
                     ● {p.stock > 0 ? `${p.stock} IN STOCK` : 'AVAILABLE ON ORDER'}
                   </span>
@@ -273,11 +266,10 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
                 </div>
 
                 <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-1">
-                  <span className="text-[10px] text-slate-400 font-mono uppercase font-bold block">ONLINE RETAIL PRICE:</span>
+                  <span className="text-[10px] text-slate-400 font-mono uppercase font-bold block">RETAIL PRICE:</span>
                   <div className="text-2xl md:text-3xl font-black text-[#FACC15] font-mono">
                     {p.sellingPrice > 0 ? `₱${p.sellingPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : 'INQUIRE COST'}
                   </div>
-                  <span className="text-[9px] text-[#FACC15] font-mono block font-bold">Official Retail Online Store — Fast Direct Delivery & Branch Pickup Available</span>
                 </div>
 
                 <div className="space-y-2 pt-2">
@@ -435,7 +427,7 @@ export default function PublicCatalogPage() {
                 Search Truck Replacement Parts
               </h1>
               <p className="text-slate-400 text-sm md:text-base mt-1 max-w-2xl font-medium">
-                Live searchable inventory for Isuzu, Hino, Fuso, Sinotruk Howo & Shacman replacement components with direct wholesale retail pricing.
+                Live searchable inventory for Isuzu, Hino, Fuso, Sinotruk Howo & Shacman replacement components with direct online retail store pricing.
               </p>
             </div>
 
@@ -450,7 +442,7 @@ export default function PublicCatalogPage() {
             <div className="md:col-span-6 relative">
               <input
                 type="text"
-                placeholder="Search OEM Number (e.g. 80KH1205), Part Name, or Fitment..."
+                placeholder="Search Part Name, Category, or Vehicle Fitment..."
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                 className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-medium placeholder-slate-500 focus:outline-none focus:border-[#FACC15] text-sm font-mono"
