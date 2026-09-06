@@ -8,7 +8,9 @@
     "build": "tsx server/build.ts",
     "start": "node dist/index.js",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx server/seed.ts"
+    "db:seed": "tsx server/seed.ts",
+    "sync-catalog": "tsx scripts/sync_catalog.js",
+    "deploy-catalog": "tsx scripts/sync_catalog.js && tsx server/build.ts && npx wrangler pages deploy dist/public --project-name=truckgear-webste --branch=main"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
