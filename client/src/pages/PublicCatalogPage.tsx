@@ -120,7 +120,7 @@ function ProductCardItem({ p }: { p: CatalogPart }) {
       <div className="p-4 bg-slate-950 border-t border-slate-800">
         <button
           onClick={handleViberClick}
-          className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 py-2.5 px-4 rounded-xl font-mono text-xs font-bold transition-all shadow-md cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 bg-[#FACC15] hover:bg-yellow-300 text-slate-950 py-2.5 px-4 rounded-xl font-mono text-xs font-black transition-all shadow-md shadow-yellow-500/20 cursor-pointer"
         >
           <MessageCircle className="w-4 h-4" />
           <span>INQUIRE VIA VIBER</span>
@@ -210,7 +210,7 @@ export default function PublicCatalogPage() {
   const pageItems = filteredParts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-yellow-400 selection:text-slate-950">
       
       {/* ─── NAVIGATION BAR ─── */}
       <header className="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-900">
@@ -221,9 +221,9 @@ export default function PublicCatalogPage() {
             </div>
             <div className="flex flex-col select-none">
               <span className="font-black italic text-lg tracking-wide text-white leading-none">
-                Truck<span className="text-amber-500 glow-text-yellow">Gear</span>
+                Truck<span className="text-[#FACC15] glow-text-yellow">Gear</span>
               </span>
-              <span className="text-[8px] font-mono text-amber-500 uppercase tracking-widest leading-none mt-1">PARTS CATALOG</span>
+              <span className="text-[8px] font-mono text-[#FACC15] uppercase tracking-widest leading-none mt-1">PARTS CATALOG</span>
             </div>
           </Link>
 
@@ -232,13 +232,13 @@ export default function PublicCatalogPage() {
               href="/"
               className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-xs rounded-md border border-slate-800 transition-colors uppercase tracking-wider"
             >
-              <ArrowLeft className="w-4 h-4 text-amber-500" />
+              <ArrowLeft className="w-4 h-4 text-[#FACC15]" />
               <span>Back to Home</span>
             </Link>
 
             <a
               href="viber://chat?number=%2B639285066385"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-md shadow-lg shadow-amber-500/10 hover:shadow-amber-500/30 transition-all uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FACC15] hover:bg-yellow-300 text-slate-950 font-black text-xs rounded-md shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/40 transition-all uppercase tracking-widest"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Request Custom Quote</span>
@@ -278,16 +278,16 @@ export default function PublicCatalogPage() {
                 placeholder="Search OEM Number (e.g. 80KH1205), Part Name, or Fitment..."
                 value={searchQuery}
                 onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-                className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-medium placeholder-slate-500 focus:outline-none focus:border-amber-500 text-sm font-mono"
+                className="w-full pl-11 pr-4 py-3.5 bg-slate-950 border border-slate-800 rounded-xl text-white font-medium placeholder-slate-500 focus:outline-none focus:border-[#FACC15] text-sm font-mono"
               />
-              <Search className="w-5 h-5 text-amber-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-5 h-5 text-[#FACC15] absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
 
             <div className="md:col-span-3">
               <select
                 value={selectedCategory}
                 onChange={(e) => { setSelectedCategory(e.target.value); setCurrentPage(1); }}
-                className="w-full py-3.5 px-4 bg-slate-950 border border-slate-800 rounded-xl text-amber-400 font-mono font-bold text-xs focus:outline-none focus:border-amber-500"
+                className="w-full py-3.5 px-4 bg-slate-950 border border-slate-800 rounded-xl text-[#FACC15] font-mono font-bold text-xs focus:outline-none focus:border-[#FACC15]"
               >
                 {categories.map(c => (
                   <option key={c} value={c}>Category: {c}</option>
@@ -299,7 +299,7 @@ export default function PublicCatalogPage() {
               <select
                 value={selectedFitment}
                 onChange={(e) => { setSelectedFitment(e.target.value); setCurrentPage(1); }}
-                className="w-full py-3.5 px-4 bg-slate-950 border border-slate-800 rounded-xl text-sky-400 font-mono font-bold text-xs focus:outline-none focus:border-amber-500"
+                className="w-full py-3.5 px-4 bg-slate-950 border border-slate-800 rounded-xl text-sky-400 font-mono font-bold text-xs focus:outline-none focus:border-[#FACC15]"
               >
                 {fitments.map(f => (
                   <option key={f} value={f}>Fitment: {f}</option>
@@ -319,7 +319,7 @@ export default function PublicCatalogPage() {
           {(searchQuery || selectedCategory !== 'ALL' || selectedFitment !== 'ALL') && (
             <button
               onClick={() => { setSearchQuery(''); setSelectedCategory('ALL'); setSelectedFitment('ALL'); setCurrentPage(1); }}
-              className="text-xs font-mono text-amber-500 hover:underline uppercase cursor-pointer"
+              className="text-xs font-mono text-[#FACC15] hover:underline uppercase cursor-pointer"
             >
               Clear Filters
             </button>
@@ -346,7 +346,7 @@ export default function PublicCatalogPage() {
         {!isLoading && totalItems > 0 && (
           <div className="flex flex-col sm:flex-row justify-between items-center mt-10 pt-6 border-t border-slate-900 gap-4 font-mono text-xs">
             <div className="text-slate-400 font-medium">
-              Showing <span className="text-amber-500 font-bold">{(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span className="text-white font-bold">{totalItems}</span> Store Parts (30 items per page)
+              Showing <span className="text-[#FACC15] font-bold">{(currentPage - 1) * itemsPerPage + 1} - {Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span className="text-white font-bold">{totalItems}</span> Store Parts (30 items per page)
             </div>
 
             <div className="flex items-center gap-2">
@@ -358,7 +358,7 @@ export default function PublicCatalogPage() {
                 ◄ PREV
               </button>
 
-              <span className="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-amber-500 font-bold">
+              <span className="px-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-[#FACC15] font-bold">
                 Page {currentPage} of {totalPages}
               </span>
 

@@ -26,7 +26,7 @@ export default function PartsmanLandingPage() {
           <div className="flex items-center gap-3">
             <Link 
               href="/catalog" 
-              className="inline-flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-md shadow-lg transition-all uppercase tracking-widest"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#FACC15] hover:bg-yellow-300 text-slate-950 font-black text-xs rounded-md shadow-lg transition-all uppercase tracking-widest"
             >
               <span>Browse Parts Catalog</span>
             </Link>
@@ -67,7 +67,7 @@ export default function PartsmanLandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-10">
-            <Link href="/catalog" className="px-8 py-4 bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-amber-500/15 hover:shadow-amber-500/35 flex items-center justify-center gap-2">
+            <Link href="/catalog" className="px-8 py-4 bg-[#FACC15] hover:bg-yellow-300 text-slate-950 font-black text-xs uppercase tracking-widest rounded-lg transition-all duration-300 text-center shadow-xl shadow-yellow-500/20 hover:shadow-yellow-500/40 flex items-center justify-center gap-2">
               <span>Browse Parts Catalog</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
