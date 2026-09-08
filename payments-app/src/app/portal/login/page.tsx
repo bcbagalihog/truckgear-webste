@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, Mail, ShieldAlert, ArrowLeft, Terminal, Cpu } from 'lucide-react';
+import { Lock, Mail, User, ShieldAlert, ArrowLeft, Terminal, Cpu } from 'lucide-react';
 import Image from 'next/image';
 
 export default function PortalLogin() {
@@ -119,7 +119,7 @@ export default function PortalLogin() {
             </div>
           ) : (
             /* Login Form */
-            <form onSubmit={handleLogin} className="space-y-5">
+            <form noValidate onSubmit={handleLogin} className="space-y-5">
               
               {error && (
                 <div className="flex gap-3 p-4 bg-red-950/20 border border-red-900/50 rounded-lg text-red-400 text-xs font-mono items-center animate-bounce">
@@ -129,17 +129,17 @@ export default function PortalLogin() {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-xs font-mono text-slate-400 uppercase tracking-widest block">Client Email</label>
+                <label className="text-xs font-mono text-slate-400 uppercase tracking-widest block">Username / Account ID</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                    <Mail className="w-4 h-4" />
+                    <User className="w-4 h-4" />
                   </div>
                   <input
                     type="text"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. jetexpress or client@domain.com"
+                    placeholder="e.g. jtexpress or admin"
                     className="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-500 transition-all font-mono"
                   />
                 </div>
